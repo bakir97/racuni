@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import TestReducer from "./testReducer";
+import LoginReducer from "./LoginReducer";
 export default combineReducers({
-  test: TestReducer
+  login: LoginReducer
 });

@@ -1,17 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Login from "./Components/Login";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import Racuni from "./Components/Racuni";
 class App extends Component {
   render() {
-    return <div>{this.props.test}</div>;
+    const auth = this.props.user.isAuth ? (
+      <>
+        <Route path="/racuni" component={Racuni} />
+        <Route path="/" render={() => <Redirect to="/racuni" />} />
+      </>
+    ) : (
+      <Route path="/" render={props => <Login {...props} />} />
+    );
+    return <Switch>{auth}</Switch>;
   }
 }
 const mapStateToProps = state => ({
-  test: state.test.test
+  user: state.login
 });
 
 const mapDispatchToProps = {};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);
