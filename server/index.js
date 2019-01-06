@@ -10,6 +10,8 @@ mongoose.connect(keys.mongoDB).then(() => {
 });
 //Models
 require("./Models/Korisnik");
+require("./Models/Capex");
+require("./Models/Unosi");
 //Passport
 const passport = require("passport");
 app.use(passport.initialize());
@@ -19,6 +21,10 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //Routes
+const Unosi = require("./Routes/Unosi");
+app.use("/Unosi", Unosi);
+const Capex = require("./Routes/Capex");
+app.use("/Capex", Capex);
 const signUp = require("./Routes/SignUp");
 app.use("/signUp", signUp);
 const LogIn = require("./Routes/LogIn");
