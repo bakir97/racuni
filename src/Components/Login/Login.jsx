@@ -23,7 +23,6 @@ export default class index extends Component {
         >
           <Grid>
             <TextField
-              id="outlined-email-input"
               label="Username"
               type="username"
               name="username"
@@ -34,7 +33,6 @@ export default class index extends Component {
               style={{ marginRight: 10 }}
             />
             <TextField
-              id="outlined-email-input"
               label="Password"
               type="password"
               name="password"

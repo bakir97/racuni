@@ -2,9 +2,8 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 export const login = podaci => async dispatch => {
   try {
-    const test = await axios.post("http://192.168.88.129:5000/Login", podaci);
+    const test = await axios.post("http://localhost:5000/Login", podaci);
     const decodedUser = jwt_decode(test.data.token);
-    console.log(decodedUser);
     dispatch(loginUser(decodedUser));
   } catch (error) {
     console.log(error);
