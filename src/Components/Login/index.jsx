@@ -9,7 +9,7 @@ export class index extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.login
+  user: state.all.user
 });
 
 const mapDispatchToProps = {

@@ -5,7 +5,7 @@ import { withRouter, Route, Switch } from "react-router-dom";
 import Racuni from "./Components/Racuni";
 class App extends Component {
   render() {
-    const auth = this.props.user.isAuth ? (
+    const auth = this.props.all.user.isAuth ? (
       <Switch>
         <Route path="/racuni" component={Racuni} />
         <Route exact path="/" render={props => <Login {...props} />} />
@@ -19,7 +19,7 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => ({
-  user: state.login
+  all: state.all
 });
 
 const mapDispatchToProps = {};
