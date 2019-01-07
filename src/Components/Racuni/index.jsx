@@ -9,6 +9,7 @@ import Test from "./test";
 import { connect } from "react-redux";
 import { getAllData } from "../../Redux/actions/UnosiActions";
 import { jedanUnos } from "../../Redux/actions/UnosiActions";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -53,8 +54,6 @@ class ScrollableTabsButtonAuto extends React.Component {
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
-            variant="fullWidth"
-            scrollButtons="auto"
           >
             <Tab label="Sarajevo" />
             <Tab label="Zenica" />
@@ -64,6 +63,7 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Tab label="Total" />
           </Tabs>
         </AppBar>
+
         {value === 0 && (
           <Test
             data={this.props.data}

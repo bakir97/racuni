@@ -6,6 +6,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, SortDirection, Table } from "react-virtualized";
+import TextField from "@material-ui/core/TextField";
+import { connect } from "react-redux";
+
 import moment from "moment";
 const styles = theme => ({
   table: {
@@ -34,6 +37,9 @@ const styles = theme => ({
 });
 
 class MuiVirtualizedTable extends React.PureComponent {
+  handleChangeInput = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
   getRowClassName = ({ index }) => {
     const { classes, rowClassName, onRowClick } = this.props;
 
@@ -44,6 +50,12 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex = null }) => {
     const { columns, classes, rowHeight, onRowClick } = this.props;
+    const array = this.props.data.map(
+      jedan => new Date(jedan.datumPocetkaSedmice)
+    );
+    const datumiSortirani = array.sort(function(a, b) {
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
     return (
       <TableCell
         component="div"
@@ -59,6 +71,33 @@ class MuiVirtualizedTable extends React.PureComponent {
         }
       >
         {cellData}
+        {columnIndex === 0 && (
+          <>
+            <TextField
+              label="Username"
+              type="date"
+              name="datumPocetkaSedmice"
+              margin="normal"
+              value={moment(datumiSortirani[0]).format("YYYY-MM-DD")}
+              onChange={e => this.handleChangeInput(e)}
+              style={{ marginLeft: 100 }}
+              InputProps={{
+                disableUnderline: true
+              }}
+            />
+            <TextField
+              label="Username"
+              type="date"
+              name="datumPocetkaSedmice"
+              margin="normal"
+              value="2019-02-02"
+              onChange={e => this.handleChangeInput(e)}
+              InputProps={{
+                disableUnderline: true
+              }}
+            />
+          </>
+        )}
       </TableCell>
     );
   };
@@ -171,11 +210,19 @@ MuiVirtualizedTable.defaultProps = {
   headerHeight: 56,
   rowHeight: 56
 };
+const mapStateToProps = state => ({
+  data: state.all.data
+});
 
-const WrappedVirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
+const mapDispatchToProps = {};
+const WrappedVirtualizedTable = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MuiVirtualizedTable));
 
 function ReactVirtualizedTable({ data, grad, history, jedanUnos }) {
   console.log(data);
+
   const noviArray = data.map(jedan => ({
     ...jedan,
     potrosnja: `${jedan.potrosnja} KM `,
@@ -210,7 +257,7 @@ function ReactVirtualizedTable({ data, grad, history, jedanUnos }) {
           columns={[
             {
               width: 120,
-              flexGrow: 1.0,
+              flexGrow: 2.0,
               label: "Capex",
               dataKey: "capexSifra"
             },
