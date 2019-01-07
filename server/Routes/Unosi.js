@@ -15,4 +15,9 @@ router.get("/", async (req, res) => {
   const unosi = await Unosi.find({}).populate("capex");
   res.json(unosi);
 });
+router.post("/edit", async (req, res) => {
+  const unosi = await Unosi.findByIdAndUpdate(req.body.id, req.body);
+  await unosi.save();
+  res.json(unosi);
+});
 module.exports = router;

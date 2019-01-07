@@ -2,6 +2,19 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Grid, Button } from "@material-ui/core";
 export default class index extends Component {
+  componentDidMount() {
+    console.log(this.props);
+
+    if (this.props.user.isAuth) {
+      this.props.history.push("racuni");
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!prevProps.user.isAuth && this.props.user.isAuth) {
+      this.props.history.replace("racuni");
+    }
+  }
+
   state = { username: "", password: "" };
   handleChangeInput = e => {
     this.setState({ [e.target.name]: e.target.value });
