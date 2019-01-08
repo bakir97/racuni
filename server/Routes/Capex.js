@@ -8,5 +8,8 @@ router.post("/", async (req, res) => {
   noviCapex.save();
   res.json({ msg: "uspjesno kreiran", noviCapex });
 });
-
+router.get("/", async (req, res) => {
+  const Capexi = await Capex.find({});
+  res.json(Capexi);
+});
 module.exports = router;

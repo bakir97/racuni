@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 import { AutoSizer, Column, SortDirection, Table } from "react-virtualized";
 import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
-
+import { capexiIDatumi } from "../../Redux/actions/UnosiActions";
 import moment from "moment";
 const styles = theme => ({
   table: {
@@ -35,9 +35,85 @@ const styles = theme => ({
     cursor: "initial"
   }
 });
+let capexiArray = [];
+let odDatum = [];
+let doDatum = [];
 
 class MuiVirtualizedTable extends React.PureComponent {
-  handleChangeInput = e => {
+  state = {
+    odDatum: null,
+    doDatum: null
+  };
+  handleChangeInput = (e, data) => {
+    if (e.target.name === "odDatum") {
+      const traziIndex = odDatum.findIndex(jedan => jedan.capex === data);
+
+      if (traziIndex > -1) {
+        console.log(odDatum[traziIndex].datumi.doDatum);
+
+        odDatum[traziIndex] = {
+          datumi: {
+            odDatum: e.target.value,
+            doDatum:
+              odDatum[traziIndex] && odDatum[traziIndex].datumi
+                ? odDatum[traziIndex].datumi.doDatum || ""
+                : ""
+          },
+          capex: data
+        };
+      } else {
+        odDatum = [
+          ...odDatum,
+          {
+            datumi: {
+              odDatum: e.target.value,
+              doDatum:
+                odDatum[traziIndex] && odDatum[traziIndex].datumi
+                  ? odDatum[traziIndex].datumi.doDatum || ""
+                  : ""
+            },
+            capex: data
+          }
+        ];
+      }
+    } else {
+      const traziIndex = odDatum.findIndex(jedan => jedan.capex === data);
+      if (traziIndex > -1) {
+        console.log(odDatum[traziIndex].datumi.doDatum);
+
+        odDatum[traziIndex] = {
+          datumi: {
+            doDatum: e.target.value,
+            odDatum:
+              odDatum[traziIndex] && odDatum[traziIndex].datumi
+                ? odDatum[traziIndex].datumi.odDatum || ""
+                : ""
+          },
+          capex: data
+        };
+      } else {
+        odDatum = [
+          ...odDatum,
+          {
+            datumi: {
+              doDatum: e.target.value,
+              odDatum:
+                odDatum[traziIndex] && odDatum[traziIndex].datumi
+                  ? odDatum[traziIndex].datumi.odDatum || ""
+                  : ""
+            },
+            capex: data
+          }
+        ];
+      }
+    }
+    console.log(odDatum, "oddat");
+    console.log(doDatum, "doDatum");
+
+    console.log(data);
+    const newDate = new Date(e.target.value);
+    console.log(newDate.getTime());
+    this.props.capexiIDatumi(odDatum);
     this.setState({ [e.target.name]: e.target.value });
   };
   getRowClassName = ({ index }) => {
@@ -50,12 +126,22 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   cellRenderer = ({ cellData, columnIndex = null }) => {
     const { columns, classes, rowHeight, onRowClick } = this.props;
-    const array = this.props.data.map(
+    const arrayPocetak = this.props.data.map(
       jedan => new Date(jedan.datumPocetkaSedmice)
     );
-    const datumiSortirani = array.sort(function(a, b) {
+    const datumiSortirani = arrayPocetak.sort(function(a, b) {
       return a > b ? -1 : a < b ? 1 : 0;
     });
+    const arrayKraj = this.props.data.map(
+      jedan => new Date(jedan.datumZavrsetkaSedmice)
+    );
+    const datumiSortiraniKraj = arrayKraj.sort(function(a, b) {
+      return a > b ? 1 : a < b ? -1 : 0;
+    });
+    // this.setState({
+    //   [columnIndex + 1000]: moment(datumiSortirani[0]).format("YYYY-MM-DD"),
+    //   [columnIndex + 2000]: moment(datumiSortiraniKraj[0]).format("YYYY-MM-DD")
+    // });
     return (
       <TableCell
         component="div"
@@ -76,10 +162,10 @@ class MuiVirtualizedTable extends React.PureComponent {
             <TextField
               label="Username"
               type="date"
-              name="datumPocetkaSedmice"
+              name="odDatum"
               margin="normal"
-              value={moment(datumiSortirani[0]).format("YYYY-MM-DD")}
-              onChange={e => this.handleChangeInput(e)}
+              value={this.state.od}
+              onChange={e => this.handleChangeInput(e, cellData)}
               style={{ marginLeft: 100 }}
               InputProps={{
                 disableUnderline: true
@@ -88,10 +174,10 @@ class MuiVirtualizedTable extends React.PureComponent {
             <TextField
               label="Username"
               type="date"
-              name="datumPocetkaSedmice"
+              name="doDatum"
               margin="normal"
-              value="2019-02-02"
-              onChange={e => this.handleChangeInput(e)}
+              value={this.state.do}
+              onChange={e => this.handleChangeInput(e, cellData)}
               InputProps={{
                 disableUnderline: true
               }}
@@ -211,17 +297,84 @@ MuiVirtualizedTable.defaultProps = {
   rowHeight: 56
 };
 const mapStateToProps = state => ({
-  data: state.all.data
+  data: state.all.data,
+  datumiCapexa: state.all.capexiDatumi
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { capexiIDatumi };
 const WrappedVirtualizedTable = connect(
   mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(MuiVirtualizedTable));
 
-function ReactVirtualizedTable({ data, grad, history, jedanUnos }) {
+function ReactVirtualizedTable({
+  data,
+  grad,
+  history,
+  jedanUnos,
+  capexi,
+  datumiCapexa
+}) {
   console.log(data);
+  const capexiArray = capexi.map(jedan => ({
+    ...jedan,
+    budzet: `${jedan.odobreniBudzet} KM`,
+    potrosnja:
+      data.length > 0
+        ? data.reduce((total, jedanObjekat) => {
+            const sekundeDatuma = new Date(
+              jedanObjekat.datumPocetkaSedmice
+            ).getTime();
+            const sekundeDatumaKraj = new Date(
+              jedanObjekat.datumZavrsetkaSedmice
+            ).getTime();
+            const capexPravi = datumiCapexa.filter(
+              jedanCapex => jedanCapex.capex === jedan.capexSifra
+            );
+            console.log(capexPravi, "capexPravi");
+
+            let sekundeOdDatuma = 0;
+            let sekundeDoDatuma = 999999999999999999999999998999;
+            if (capexPravi.length > 0) {
+              if (capexPravi[0].datumi && capexPravi[0].datumi.odDatum) {
+                sekundeOdDatuma = new Date(
+                  capexPravi[0].datumi.odDatum
+                ).getTime();
+              }
+              if (capexPravi[0].datumi && capexPravi[0].datumi.odDatum) {
+                sekundeDoDatuma = new Date(
+                  capexPravi[0].datumi.doDatum
+                ).getTime();
+              }
+
+              console.log(sekundeOdDatuma, "sekundeOdDatuma");
+              console.log(sekundeDoDatuma, "sekundeDoDatuma");
+            }
+
+            if (
+              jedan.capexSifra === jedanObjekat.capex.capexSifra &&
+              sekundeDatuma > sekundeOdDatuma
+            ) {
+              console.log(jedanObjekat.potrosnja, "puklooooo");
+              return total + jedanObjekat.potrosnja;
+            }
+            return total;
+          }, 0)
+        : null,
+    preostaliNovac:
+      data.length > 0
+        ? jedan.odobreniBudzet -
+          data.reduce((total, jedanObjekat) => {
+            if (jedan.capexSifra === jedanObjekat.capex.capexSifra) {
+              console.log(jedanObjekat.potrosnja);
+              return total + jedanObjekat.potrosnja;
+            }
+            return total;
+          }, 0) +
+          " KM"
+        : null
+  }));
+  console.log(capexiArray, "capexiArray");
 
   const noviArray = data.map(jedan => ({
     ...jedan,
@@ -247,12 +400,14 @@ function ReactVirtualizedTable({ data, grad, history, jedanUnos }) {
       pathname: "/editUnos"
     });
   };
+  console.log("ponovvoooos");
+
   return (
     <>
       <Paper style={{ height: "40vh", width: "100%" }}>
         <WrappedVirtualizedTable
-          rowCount={filtriranArray.length}
-          rowGetter={({ index }) => filtriranArray[index]}
+          rowCount={capexiArray.length}
+          rowGetter={({ index }) => capexiArray[index]}
           onRowClick={event => console.log(event)}
           columns={[
             {
@@ -281,7 +436,7 @@ function ReactVirtualizedTable({ data, grad, history, jedanUnos }) {
               flexGrow: 1.0,
 
               label: "Preostali novac",
-              dataKey: "budzet"
+              dataKey: "preostaliNovac"
             }
           ]}
         />
@@ -325,4 +480,7 @@ function ReactVirtualizedTable({ data, grad, history, jedanUnos }) {
   );
 }
 
-export default ReactVirtualizedTable;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReactVirtualizedTable);

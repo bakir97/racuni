@@ -1,7 +1,9 @@
 const initialState = {
   user: {},
   data: [],
-  jedanUnos: {}
+  jedanUnos: {},
+  allCapexi: [],
+  capexiDatumi: []
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -15,6 +17,17 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         data: payload
+      };
+    case "CAPEXI_DATUMI":
+      return {
+        ...state,
+        capexiDatumi: payload
+      };
+
+    case "ALL_CAPEXI":
+      return {
+        ...state,
+        allCapexi: payload
       };
     case "JEDAN_UNOS":
       return {
