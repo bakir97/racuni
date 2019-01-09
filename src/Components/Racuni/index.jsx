@@ -5,10 +5,12 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import Test from "./test";
+import Test from "./capexiTabela";
 import { connect } from "react-redux";
 import { getAllData, getAllCapex } from "../../Redux/actions/UnosiActions";
 import { jedanUnos } from "../../Redux/actions/UnosiActions";
+import ObicnaTabela from "./obicnaTabela";
+import Button from "@material-ui/core/Button";
 
 function TabContainer(props) {
   return (
@@ -32,7 +34,7 @@ const styles = theme => ({
 
 class ScrollableTabsButtonAuto extends React.Component {
   state = {
-    value: 0,
+    value: null,
     data: []
   };
   componentDidMount() {
@@ -50,7 +52,7 @@ class ScrollableTabsButtonAuto extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
     const { value } = this.state;
     let x = this.state.data.filter(
       (v, i) => this.state.data.indexOf(v.capex.capexSifra) === i
@@ -68,60 +70,106 @@ class ScrollableTabsButtonAuto extends React.Component {
             indicatorColor="primary"
             textColor="primary"
           >
-            <Tab label="Sarajevo" />
-            <Tab label="Zenica" />
-            <Tab label="Mostar" />
-            <Tab label="Tuzla" />
-            <Tab label="SBK" />
+            <Tab
+              label="Sarajevo"
+              disabled={user.mjesto === "Sarajevo" ? false : true}
+            />
+            <Tab
+              label="Zenica"
+              disabled={
+                user.mjesto === "Sarajevo" || user.mjesto === "Zenica"
+                  ? false
+                  : true
+              }
+            />
+            <Tab
+              label="Mostar"
+              disabled={
+                user.mjesto === "Sarajevo" || user.mjesto === "Mostar"
+                  ? false
+                  : true
+              }
+            />
+            <Tab
+              label="Tuzla"
+              disabled={
+                user.mjesto === "Sarajevo" || user.mjesto === "Tuzla"
+                  ? false
+                  : true
+              }
+            />
+            <Tab
+              label="SBK"
+              disabled={
+                user.mjesto === "Sarajevo" || user.mjesto === "SBK"
+                  ? false
+                  : true
+              }
+            />
             <Tab label="Total" />
           </Tabs>
         </AppBar>
 
-        {value === 0 && (
+        {value === 0 && user.mjesto === "Sarajevo" && (
           <Test
             capexi={this.props.capexi}
-            data={this.props.data}
+            data={this.props.data.filter(
+              jedan => jedan.poslovnaJedinica === "Sarajevo"
+            )}
             grad="Sarajevo"
             history={this.props.history}
             jedanUnos={this.props.jedanUnos}
           />
         )}
-        {value === 1 && (
-          <Test
-            capexi={this.props.capexi}
-            data={this.props.data}
-            grad="Zenica"
-            history={this.props.history}
-            jedanUnos={this.props.jedanUnos}
-          />
-        )}
-        {value === 2 && (
-          <Test
-            capexi={this.props.capexi}
-            data={this.props.data}
-            grad="Mostar"
-            history={this.props.history}
-            jedanUnos={this.props.jedanUnos}
-          />
-        )}
-        {value === 3 && (
-          <Test
-            capexi={this.props.capexi}
-            data={this.props.data}
-            grad="Tuzla"
-            history={this.props.history}
-          />
-        )}
-        {value === 4 && (
-          <Test
-            capexi={this.props.capexi}
-            data={this.props.data}
-            grad="SBK"
-            history={this.props.history}
-            jedanUnos={this.props.jedanUnos}
-          />
-        )}
+        {value === 1 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "Zenica") && (
+            <Test
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Zenica"
+              )}
+              grad="Zenica"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+          )}
+        {value === 2 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "Mostar") && (
+            <Test
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Mostar"
+              )}
+              grad="Mostar"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+          )}
+        {value === 3 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "Tuzla") && (
+            <Test
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Tuzla"
+              )}
+              grad="Tuzla"
+              history={this.props.history}
+            />
+          )}
+        {value === 4 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
+            <Test
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "SBK"
+              )}
+              grad="SBK"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+          )}
         {value === 5 && (
+          //pitat ko ovo moze vidjet
           <Test
             capexi={this.props.capexi}
             data={this.props.data}
@@ -130,11 +178,87 @@ class ScrollableTabsButtonAuto extends React.Component {
             jedanUnos={this.props.jedanUnos}
           />
         )}
+        {value === 0 && user.mjesto === "Sarajevo" && (
+          <ObicnaTabela
+            capexi={this.props.capexi}
+            data={this.props.data.filter(
+              jedan => jedan.poslovnaJedinica === "Sarajevo"
+            )}
+            grad="Sarajevo"
+            history={this.props.history}
+            jedanUnos={this.props.jedanUnos}
+          />
+        )}
+        {value === 1 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "Zenica") && (
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Zenica"
+              )}
+              grad="Zenica"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+          )}
+        {value === 2 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "Mostar") && (
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Mostar"
+              )}
+              grad="Mostar"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+          )}
+        {value === 3 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "Tuzla") && (
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Tuzla"
+              )}
+              grad="Tuzla"
+              history={this.props.history}
+            />
+          )}
+        {value === 4 &&
+          (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "SBK"
+              )}
+              grad="SBK"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+          )}
+        {value === 5 && (
+          //pitat ko ovo moze vidjet
+          <ObicnaTabela
+            capexi={this.props.capexi}
+            data={this.props.data}
+            grad="Total"
+            history={this.props.history}
+            jedanUnos={this.props.jedanUnos}
+          />
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => this.props.history.push("/createUnos")}
+        >
+          Dodaj
+        </Button>
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
+  user: state.all.user,
   data: state.all.data,
   capexi: state.all.allCapexi
 });

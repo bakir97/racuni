@@ -10,19 +10,17 @@ import Select from "@material-ui/core/Select";
 import { sacuvajPodatke, jedanUnos } from "../../Redux/actions/UnosiActions";
 class index extends Component {
   state = {
-    ...this.props.jedanUnosState,
-    datumPocetkaSedmice: moment(
-      this.props.jedanUnosState.datumPocetkaSedmice
-    ).format("YYYY-MM-DD"),
-    datumZavrsetkaSedmice: moment(
-      this.props.jedanUnosState.datumZavrsetkaSedmice
-    ).format("YYYY-MM-DD")
+    datumPocetkaSedmice: moment().format("YYYY-MM-DD"),
+    datumZavrsetkaSedmice: moment().format("YYYY-MM-DD"),
+    potrosnja: 0,
+    capex: { capexSifra: "" }
   };
   handleChangeInput = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
   submit = e => {
     e.preventDefault();
+
     this.props.sacuvajPodatke({
       ...this.state,
       capex: this.props.capexi.filter(
@@ -32,14 +30,7 @@ class index extends Component {
     });
     this.props.history.push("/racuni");
   };
-  componentWillUnmount() {
-    this.props.jedanUnos();
-  }
-  componentDidMount() {
-    if (Object.keys(this.props.jedanUnosState).length <= 0) {
-      this.props.history.push("/racuni");
-    }
-  }
+
   handleChange = e => {
     this.setState({
       capex: { ...this.state.capex, capexSifra: e.target.value }
@@ -97,20 +88,11 @@ class index extends Component {
                     id: "age-simple"
                   }}
                 >
-                  <MenuItem value={this.props.jedanUnosState.capex.capexSifra}>
-                    {this.props.jedanUnosState.capex.capexSifra}
-                  </MenuItem>
-                  {this.props.capexi
-                    .filter(
-                      capex =>
-                        this.props.jedanUnosState.capex.capexSifra !==
-                        capex.capexSifra
-                    )
-                    .map(capex => (
-                      <MenuItem value={capex.capexSifra}>
-                        {capex.capexSifra}
-                      </MenuItem>
-                    ))}
+                  {this.props.capexi.map(capex => (
+                    <MenuItem value={capex.capexSifra}>
+                      {capex.capexSifra}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             )}
