@@ -8,10 +8,13 @@ import Typography from "@material-ui/core/Typography";
 import Test from "./capexiTabela";
 import { connect } from "react-redux";
 import { getAllData, getAllCapex } from "../../Redux/actions/UnosiActions";
-import { jedanUnos } from "../../Redux/actions/UnosiActions";
+import { jedanUnos, success } from "../../Redux/actions/UnosiActions";
+import { loginUser } from "../../Redux/actions/LoginAction";
 import ObicnaTabela from "./obicnaTabela";
 import Button from "@material-ui/core/Button";
-
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -35,7 +38,8 @@ const styles = theme => ({
 class ScrollableTabsButtonAuto extends React.Component {
   state = {
     value: null,
-    data: []
+    data: [],
+    open: true
   };
   componentDidMount() {
     this.props.getAllData();
@@ -45,21 +49,29 @@ class ScrollableTabsButtonAuto extends React.Component {
   handleChange = (event, value) => {
     this.setState({ value });
   };
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.state.data.length === 0 && this.props.data.length > 0) {
       this.setState({ data: this.props.data });
     }
   }
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    this.setState({ open: false });
+  };
+  logout = () => {
+    localStorage.removeItem("user");
+    this.props.loginUser({});
+    this.props.history.push("/");
+  };
   render() {
     const { classes, user } = this.props;
     const { value } = this.state;
     let x = this.state.data.filter(
       (v, i) => this.state.data.indexOf(v.capex.capexSifra) === i
     );
-    console.log(this.state.data);
-
-    console.log(x);
 
     return (
       <div className={classes.root}>
@@ -107,6 +119,12 @@ class ScrollableTabsButtonAuto extends React.Component {
               }
             />
             <Tab label="Total" />
+            <Button
+              style={{ marginLeft: "auto", marginRight: 20 }}
+              onClick={this.logout}
+            >
+              Logout
+            </Button>
           </Tabs>
         </AppBar>
 
@@ -179,53 +197,89 @@ class ScrollableTabsButtonAuto extends React.Component {
           />
         )}
         {value === 0 && user.mjesto === "Sarajevo" && (
-          <ObicnaTabela
-            capexi={this.props.capexi}
-            data={this.props.data.filter(
-              jedan => jedan.poslovnaJedinica === "Sarajevo"
-            )}
-            grad="Sarajevo"
-            history={this.props.history}
-            jedanUnos={this.props.jedanUnos}
-          />
+          <>
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={this.props.data.filter(
+                jedan => jedan.poslovnaJedinica === "Sarajevo"
+              )}
+              grad="Sarajevo"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.props.history.push("/createUnos")}
+            >
+              Dodaj
+            </Button>
+          </>
         )}
         {value === 1 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Zenica") && (
-            <ObicnaTabela
-              capexi={this.props.capexi}
-              data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "Zenica"
-              )}
-              grad="Zenica"
-              history={this.props.history}
-              jedanUnos={this.props.jedanUnos}
-            />
+            <>
+              <ObicnaTabela
+                capexi={this.props.capexi}
+                data={this.props.data.filter(
+                  jedan => jedan.poslovnaJedinica === "Zenica"
+                )}
+                grad="Zenica"
+                history={this.props.history}
+                jedanUnos={this.props.jedanUnos}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => this.props.history.push("/createUnos")}
+              >
+                Dodaj
+              </Button>
+            </>
           )}
         {value === 2 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Mostar") && (
-            <ObicnaTabela
-              capexi={this.props.capexi}
-              data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "Mostar"
-              )}
-              grad="Mostar"
-              history={this.props.history}
-              jedanUnos={this.props.jedanUnos}
-            />
+            <>
+              <ObicnaTabela
+                capexi={this.props.capexi}
+                data={this.props.data.filter(
+                  jedan => jedan.poslovnaJedinica === "Mostar"
+                )}
+                grad="Mostar"
+                history={this.props.history}
+                jedanUnos={this.props.jedanUnos}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => this.props.history.push("/createUnos")}
+              >
+                Dodaj
+              </Button>
+            </>
           )}
         {value === 3 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Tuzla") && (
-            <ObicnaTabela
-              capexi={this.props.capexi}
-              data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "Tuzla"
-              )}
-              grad="Tuzla"
-              history={this.props.history}
-            />
+            <>
+              <ObicnaTabela
+                capexi={this.props.capexi}
+                data={this.props.data.filter(
+                  jedan => jedan.poslovnaJedinica === "Tuzla"
+                )}
+                grad="Tuzla"
+                history={this.props.history}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => this.props.history.push("/createUnos")}
+              >
+                Dodaj
+              </Button>
+            </>
           )}
-        {value === 4 &&
-          (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
+        {value === 4 && (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
+          <>
             <ObicnaTabela
               capexi={this.props.capexi}
               data={this.props.data.filter(
@@ -235,24 +289,34 @@ class ScrollableTabsButtonAuto extends React.Component {
               history={this.props.history}
               jedanUnos={this.props.jedanUnos}
             />
-          )}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.props.history.push("/createUnos")}
+            >
+              Dodaj
+            </Button>
+          </>
+        )}
         {value === 5 && (
           //pitat ko ovo moze vidjet
-          <ObicnaTabela
-            capexi={this.props.capexi}
-            data={this.props.data}
-            grad="Total"
-            history={this.props.history}
-            jedanUnos={this.props.jedanUnos}
-          />
+          <>
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={this.props.data}
+              grad="Total"
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.props.history.push("/createUnos")}
+            >
+              Dodaj
+            </Button>
+          </>
         )}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => this.props.history.push("/createUnos")}
-        >
-          Dodaj
-        </Button>
       </div>
     );
   }
@@ -260,10 +324,17 @@ class ScrollableTabsButtonAuto extends React.Component {
 const mapStateToProps = state => ({
   user: state.all.user,
   data: state.all.data,
-  capexi: state.all.allCapexi
+  capexi: state.all.allCapexi,
+  sucessState: state.all.success
 });
 
-const mapDispatchToProps = { getAllData, jedanUnos, getAllCapex };
+const mapDispatchToProps = {
+  getAllData,
+  jedanUnos,
+  getAllCapex,
+  success,
+  loginUser
+};
 
 ScrollableTabsButtonAuto.propTypes = {
   classes: PropTypes.object.isRequired

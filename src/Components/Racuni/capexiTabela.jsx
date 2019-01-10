@@ -130,8 +130,8 @@ class test extends Component {
 
               const potrosnja = datumiPravi.reduce((total, trosak) => {
                 if (
-                  trosak.datumPocetkaSedmice > odDatumState &&
-                  trosak.datumZavrsetkaSedmice < doDatumState
+                  trosak.datumPocetkaSedmice >= odDatumState &&
+                  trosak.datumZavrsetkaSedmice <= doDatumState
                 ) {
                   return total + trosak.potrosnja;
                 }
@@ -155,7 +155,8 @@ class test extends Component {
                       margin="normal"
                       variant="outlined"
                       value={
-                        this.state.datumi[findIndex]
+                        this.state.datumi[findIndex] &&
+                        this.state.datumi[findIndex].od.length > 0
                           ? this.state.datumi[findIndex].od
                           : moment(najmanji).format("YYYY-MM-DD")
                       }

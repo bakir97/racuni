@@ -55,7 +55,7 @@ function SimpleTable(props) {
         <TableBody>
           {data.map(row => {
             return (
-              <TableRow key={row.id} onClick={() => prebaci(row)}>
+              <TableRow key={row._id} onClick={() => prebaci(row)}>
                 <TableCell component="th" scope="row">
                   {row.capex.capexSifra}
                 </TableCell>

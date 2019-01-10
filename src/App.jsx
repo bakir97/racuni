@@ -18,7 +18,7 @@ class App extends Component {
       <Switch>
         <Route path="/editUnos" component={EditUnose} />
         <Route path="/createUnos" component={CreateUnose} />
-        <Route exact path="/" render={props => <Login {...props} />} />
+        <Route path="/" render={props => <Login {...props} />} />
       </Switch>
     );
     return auth;

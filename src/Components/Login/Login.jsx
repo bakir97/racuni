@@ -11,6 +11,7 @@ export default class index extends Component {
   }
   componentDidUpdate(prevProps) {
     if (!prevProps.user.isAuth && this.props.user.isAuth) {
+      this.props.errorLogin({});
       this.props.history.replace("racuni");
     }
   }
@@ -36,6 +37,8 @@ export default class index extends Component {
         >
           <Grid>
             <TextField
+              error={this.props.errorLoginState.username ? true : false}
+              helperText={this.props.errorLoginState.username}
               label="Username"
               type="username"
               name="username"
@@ -46,6 +49,8 @@ export default class index extends Component {
               style={{ marginRight: 10 }}
             />
             <TextField
+              error={this.props.errorLoginState.password ? true : false}
+              helperText={this.props.errorLoginState.password}
               label="Password"
               type="password"
               name="password"

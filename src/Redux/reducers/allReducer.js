@@ -3,7 +3,9 @@ const initialState = {
   data: [],
   jedanUnos: {},
   allCapexi: [],
-  capexiDatumi: []
+  capexiDatumi: [],
+  errorLogin: {},
+  success: false
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -29,10 +31,21 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         allCapexi: payload
       };
+    case "ERROR_LOGIN":
+      return {
+        ...state,
+        errorLogin: payload
+      };
+
     case "JEDAN_UNOS":
       return {
         ...state,
         jedanUnos: payload
+      };
+    case "SUCCESS":
+      return {
+        ...state,
+        success: payload
       };
 
     default:

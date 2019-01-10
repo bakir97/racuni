@@ -9,7 +9,8 @@ export const getAllCapex = () => async dispatch => {
 };
 export const sacuvajPodatke = data => async dispatch => {
   try {
-    const podaci = await axios.post("http://localhost:5000/Unosi", data);
+    await axios.post("http://localhost:5000/Unosi", data);
+    dispatch(success(true));
   } catch (error) {
     console.log(error.response.data);
   }
@@ -18,6 +19,11 @@ export const storeCapexi = payload => ({
   type: "ALL_CAPEXI",
   payload
 });
+export const success = payload => ({
+  type: "SUCCESS",
+  payload
+});
+
 export const capexiIDatumi = payload => ({
   type: "CAPEXI_DATUMI",
   payload

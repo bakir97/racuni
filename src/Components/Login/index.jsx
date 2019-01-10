@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from "../../Redux/actions/LoginAction";
+import { login, errorLogin } from "../../Redux/actions/LoginAction";
 import Login from "./Login";
 export class index extends Component {
   render() {
@@ -9,11 +9,13 @@ export class index extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.all.user
+  user: state.all.user,
+  errorLoginState: state.all.errorLogin
 });
 
 const mapDispatchToProps = {
-  login
+  login,
+  errorLogin
 };
 
 export default connect(
