@@ -7,7 +7,11 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { sacuvajPodatke, jedanUnos } from "../../Redux/actions/UnosiActions";
+import {
+  sacuvajPodatke,
+  jedanUnos,
+  getAllCapex
+} from "../../Redux/actions/UnosiActions";
 class index extends Component {
   state = {
     datumPocetkaSedmice: moment().format("YYYY-MM-DD"),
@@ -15,6 +19,9 @@ class index extends Component {
     potrosnja: 0,
     capex: { capexSifra: "" }
   };
+  componentDidMount() {
+    this.props.getAllCapex();
+  }
   handleChangeInput = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -89,7 +96,7 @@ class index extends Component {
                   }}
                 >
                   {this.props.capexi.map(capex => (
-                    <MenuItem value={capex.capexSifra}>
+                    <MenuItem key={capex._id} value={capex.capexSifra}>
                       {capex.capexSifra}
                     </MenuItem>
                   ))}
@@ -127,7 +134,7 @@ const mapStateToProps = state => ({
   user: state.all.user
 });
 
-const mapDispatchToProps = { sacuvajPodatke, jedanUnos };
+const mapDispatchToProps = { sacuvajPodatke, jedanUnos, getAllCapex };
 
 export default connect(
   mapStateToProps,

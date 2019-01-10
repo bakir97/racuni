@@ -24,52 +24,7 @@ class test extends Component {
   state = {
     datumi: []
   };
-  handleChangeInput = (e, sifra) => {
-    if (e.target.name === "od") {
-      const filterState = this.state.datumi.filter(
-        datum => datum.capex === sifra
-      );
-      if (filterState.length > 0) {
-        this.setState({
-          datumi: this.state.datumi.map(datum => {
-            if (datum.capex === sifra) {
-              return { ...datum, od: e.target.value };
-            }
-            return datum;
-          })
-        });
-        return;
-      }
-      this.setState({
-        datumi: [
-          ...this.state.datumi,
-          { capex: sifra, od: e.target.value, do: "" }
-        ]
-      });
-    } else {
-      const filterState = this.state.datumi.filter(
-        datum => datum.capex === sifra
-      );
-      if (filterState.length > 0) {
-        this.setState({
-          datumi: this.state.datumi.map(datum => {
-            if (datum.capex === sifra) {
-              return { ...datum, do: e.target.value };
-            }
-            return datum;
-          })
-        });
-        return;
-      }
-      this.setState({
-        datumi: [
-          ...this.state.datumi,
-          { capex: sifra, do: e.target.value, od: "" }
-        ]
-      });
-    }
-    this.setState({ [e.target.name]: e.target.value });
-  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -78,8 +33,7 @@ class test extends Component {
           <TableHead>
             <TableRow>
               <TableCell>Capex</TableCell>
-              <TableCell>Od</TableCell>
-              <TableCell>Do</TableCell>
+
               <TableCell>Potrosnja</TableCell>
               <TableCell>Odobreni Budzet</TableCell>
               <TableCell>Razlika</TableCell>
@@ -148,38 +102,7 @@ class test extends Component {
                   <TableCell component="th" scope="row">
                     {row.capexSifra}
                   </TableCell>
-                  <TableCell>
-                    <TextField
-                      type="date"
-                      name="od"
-                      margin="normal"
-                      variant="outlined"
-                      value={
-                        this.state.datumi[findIndex] &&
-                        this.state.datumi[findIndex].od.length > 0
-                          ? this.state.datumi[findIndex].od
-                          : moment(najmanji).format("YYYY-MM-DD")
-                      }
-                      onChange={e => this.handleChangeInput(e, row.capexSifra)}
-                      style={{ marginRight: 10 }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      type="date"
-                      name="do"
-                      margin="normal"
-                      variant="outlined"
-                      value={
-                        this.state.datumi[findIndex] &&
-                        this.state.datumi[findIndex].do.length > 0
-                          ? this.state.datumi[findIndex].do
-                          : moment(najveci).format("YYYY-MM-DD")
-                      }
-                      onChange={e => this.handleChangeInput(e, row.capexSifra)}
-                      style={{ marginRight: 10 }}
-                    />
-                  </TableCell>
+
                   <TableCell>{potrosnja.toFixed(2)} KM</TableCell>
                   <TableCell>{row.odobreniBudzet.toFixed(2)} KM</TableCell>
                   <TableCell>

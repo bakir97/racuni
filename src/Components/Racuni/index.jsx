@@ -10,8 +10,10 @@ import { connect } from "react-redux";
 import { getAllData, getAllCapex } from "../../Redux/actions/UnosiActions";
 import { jedanUnos, success } from "../../Redux/actions/UnosiActions";
 import { loginUser } from "../../Redux/actions/LoginAction";
+import { Grid, TextField } from "@material-ui/core";
 import ObicnaTabela from "./obicnaTabela";
 import Button from "@material-ui/core/Button";
+import moment from "moment";
 const gradovi = ["Sarajevo", "Zenica", "Mostar", "Tuzla", "SBK"];
 function TabContainer(props) {
   return (
@@ -37,7 +39,9 @@ class ScrollableTabsButtonAuto extends React.Component {
   state = {
     value: gradovi.findIndex(grad => grad === this.props.user.mjesto),
     data: [],
-    open: true
+    open: true,
+    od: null,
+    do: null
   };
   componentDidMount() {
     this.props.getAllData();
@@ -46,6 +50,9 @@ class ScrollableTabsButtonAuto extends React.Component {
 
   handleChange = (event, value) => {
     this.setState({ value });
+  };
+  handleChangeInput = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
   componentDidUpdate(prevProps) {
     if (this.state.data.length === 0 && this.props.data.length > 0) {
@@ -67,9 +74,38 @@ class ScrollableTabsButtonAuto extends React.Component {
   render() {
     const { classes, user } = this.props;
     const { value } = this.state;
-    let x = this.state.data.filter(
-      (v, i) => this.state.data.indexOf(v.capex.capexSifra) === i
+    const datumiPretvoreniOd = this.props.data.map(jedan =>
+      moment(jedan.datumPocetkaSedmice).valueOf()
     );
+    const datumiPretvoreniDo = this.props.data.map(jedan =>
+      moment(jedan.datumZavrsetkaSedmice).valueOf()
+    );
+    console.log(Math.min(datumiPretvoreniOd), "datumo");
+    let doDatumMoment = moment(this.state.do || 0).valueOf();
+    if (doDatumMoment === 0) {
+      doDatumMoment = 99999999999999999;
+    }
+    const test = this.props.data.filter(jedan => {
+      console.log(moment(jedan.datumPocetkaSedmice).valueOf());
+      console.log(moment(this.state.od || 0).valueOf(), "testiram");
+      console.log(
+        moment(jedan.datumPocetkaSedmice).valueOf() >=
+          moment(this.state.od || 0).valueOf(),
+        "relacija"
+      );
+
+      if (
+        jedan.poslovnaJedinica === "Sarajevo" &&
+        moment(jedan.datumPocetkaSedmice).valueOf() >=
+          moment(this.state.od || 0).valueOf() &&
+        moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+      ) {
+        return jedan;
+      }
+      return null;
+    });
+
+    console.log(test, "test filter");
 
     return (
       <div className={classes.root}>
@@ -116,7 +152,10 @@ class ScrollableTabsButtonAuto extends React.Component {
                   : true
               }
             />
-            <Tab label="Total" />
+            <Tab
+              label="Total"
+              disabled={user.mjesto === "Sarajevo" ? false : true}
+            />
             <Button
               style={{ marginLeft: "auto", marginRight: 20 }}
               onClick={this.logout}
@@ -125,12 +164,52 @@ class ScrollableTabsButtonAuto extends React.Component {
             </Button>
           </Tabs>
         </AppBar>
+        <Grid container alignItems="center">
+          <Typography style={{ marginRight: 20 }}>
+            Filter po datumima:
+          </Typography>
+          <Typography style={{ marginRight: 20 }}>Od</Typography>
 
+          <TextField
+            type="date"
+            name="od"
+            margin="normal"
+            variant="outlined"
+            value={
+              this.state.od
+                ? this.state.od
+                : moment(Math.min(...datumiPretvoreniOd)).format("YYYY-MM-DD")
+            }
+            onChange={e => this.handleChangeInput(e)}
+            style={{ marginRight: 20 }}
+          />
+          <Typography style={{ marginRight: 20 }}>Do</Typography>
+
+          <TextField
+            type="date"
+            name="do"
+            margin="normal"
+            variant="outlined"
+            value={
+              this.state.do
+                ? this.state.do
+                : moment(
+                    moment(Math.max(...datumiPretvoreniDo)).format("YYYY-MM-DD")
+                  ).format("YYYY-MM-DD")
+            }
+            onChange={e => this.handleChangeInput(e)}
+            style={{ marginRight: 10 }}
+          />
+        </Grid>
         {value === 0 && user.mjesto === "Sarajevo" && (
           <Test
             capexi={this.props.capexi}
             data={this.props.data.filter(
-              jedan => jedan.poslovnaJedinica === "Sarajevo"
+              jedan =>
+                jedan.poslovnaJedinica === "Sarajevo" &&
+                moment(jedan.datumPocetkaSedmice).valueOf() >=
+                  moment(this.state.od || 0).valueOf() &&
+                moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
             )}
             grad="Sarajevo"
             history={this.props.history}
@@ -194,6 +273,7 @@ class ScrollableTabsButtonAuto extends React.Component {
             jedanUnos={this.props.jedanUnos}
           />
         )}
+        <Typography style={{ marginTop: 20 }}>Svi Unosi</Typography>
         {value === 0 && user.mjesto === "Sarajevo" && (
           <>
             <ObicnaTabela
