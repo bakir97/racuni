@@ -82,7 +82,7 @@ class test extends Component {
               <TableCell>Do</TableCell>
               <TableCell>Potrosnja</TableCell>
               <TableCell>Odobreni Budzet</TableCell>
-              <TableCell>Ostalo</TableCell>
+              <TableCell>Razlika</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -180,9 +180,11 @@ class test extends Component {
                       style={{ marginRight: 10 }}
                     />
                   </TableCell>
-                  <TableCell>{potrosnja} KM</TableCell>
-                  <TableCell>{row.odobreniBudzet} KM</TableCell>
-                  <TableCell>{row.odobreniBudzet - potrosnja} KM</TableCell>
+                  <TableCell>{potrosnja.toFixed(2)} KM</TableCell>
+                  <TableCell>{row.odobreniBudzet.toFixed(2)} KM</TableCell>
+                  <TableCell>
+                    {(row.odobreniBudzet - potrosnja).toFixed(2)} KM
+                  </TableCell>
                 </TableRow>
               );
             })}

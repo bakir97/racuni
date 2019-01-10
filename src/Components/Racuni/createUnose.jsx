@@ -108,8 +108,12 @@ class index extends Component {
             />
           </Grid>
           <Grid>
-            <Button variant="outlined" color="primary" type="submit">
-              Login
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "#6aff3d" }}
+              type="submit"
+            >
+              Sačuvaj
             </Button>
           </Grid>
         </Grid>

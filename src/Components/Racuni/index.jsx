@@ -12,9 +12,7 @@ import { jedanUnos, success } from "../../Redux/actions/UnosiActions";
 import { loginUser } from "../../Redux/actions/LoginAction";
 import ObicnaTabela from "./obicnaTabela";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+const gradovi = ["Sarajevo", "Zenica", "Mostar", "Tuzla", "SBK"];
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -37,7 +35,7 @@ const styles = theme => ({
 
 class ScrollableTabsButtonAuto extends React.Component {
   state = {
-    value: null,
+    value: gradovi.findIndex(grad => grad === this.props.user.mjesto),
     data: [],
     open: true
   };
@@ -186,7 +184,7 @@ class ScrollableTabsButtonAuto extends React.Component {
               jedanUnos={this.props.jedanUnos}
             />
           )}
-        {value === 5 && (
+        {value === 5 && user.mjesto === "Sarajevo" && (
           //pitat ko ovo moze vidjet
           <Test
             capexi={this.props.capexi}
@@ -208,6 +206,7 @@ class ScrollableTabsButtonAuto extends React.Component {
               jedanUnos={this.props.jedanUnos}
             />
             <Button
+              style={{ marginTop: 20 }}
               variant="contained"
               color="primary"
               onClick={() => this.props.history.push("/createUnos")}
@@ -229,6 +228,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                 jedanUnos={this.props.jedanUnos}
               />
               <Button
+                style={{ marginTop: 20 }}
                 variant="contained"
                 color="primary"
                 onClick={() => this.props.history.push("/createUnos")}
@@ -250,6 +250,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                 jedanUnos={this.props.jedanUnos}
               />
               <Button
+                style={{ marginTop: 20 }}
                 variant="contained"
                 color="primary"
                 onClick={() => this.props.history.push("/createUnos")}
@@ -270,6 +271,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                 history={this.props.history}
               />
               <Button
+                style={{ marginTop: 20 }}
                 variant="contained"
                 color="primary"
                 onClick={() => this.props.history.push("/createUnos")}
@@ -290,25 +292,7 @@ class ScrollableTabsButtonAuto extends React.Component {
               jedanUnos={this.props.jedanUnos}
             />
             <Button
-              variant="contained"
-              color="primary"
-              onClick={() => this.props.history.push("/createUnos")}
-            >
-              Dodaj
-            </Button>
-          </>
-        )}
-        {value === 5 && (
-          //pitat ko ovo moze vidjet
-          <>
-            <ObicnaTabela
-              capexi={this.props.capexi}
-              data={this.props.data}
-              grad="Total"
-              history={this.props.history}
-              jedanUnos={this.props.jedanUnos}
-            />
-            <Button
+              style={{ marginTop: 20 }}
               variant="contained"
               color="primary"
               onClick={() => this.props.history.push("/createUnos")}

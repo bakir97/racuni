@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import moment from "moment";
 import { connect } from "react-redux";
 import { jedanUnos } from "../../Redux/actions/UnosiActions";
+import { Button } from "@material-ui/core";
 const styles = theme => ({
   root: {
     width: "100%",
@@ -44,18 +45,25 @@ function SimpleTable(props) {
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
-        <TableHead>
+        <TableHead style={{ backgroundColor: "black" }}>
           <TableRow>
-            <TableCell>CAPEX</TableCell>
-            <TableCell align="right">Od</TableCell>
-            <TableCell align="right">Do</TableCell>
-            <TableCell align="right">Potrosnja</TableCell>
+            <TableCell style={{ color: "white" }}>CAPEX</TableCell>
+            <TableCell style={{ color: "white" }} align="right">
+              Od
+            </TableCell>
+            <TableCell style={{ color: "white" }} align="right">
+              Do
+            </TableCell>
+            <TableCell style={{ color: "white" }} align="right">
+              Potrosnja
+            </TableCell>
+            <TableCell style={{ color: "white" }} align="right" />
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map(row => {
             return (
-              <TableRow key={row._id} onClick={() => prebaci(row)}>
+              <TableRow key={row._id}>
                 <TableCell component="th" scope="row">
                   {row.capex.capexSifra}
                 </TableCell>
@@ -65,7 +73,18 @@ function SimpleTable(props) {
                 <TableCell align="right">
                   {moment(row.datumZavrsetkaSedmice).format("DD/MM/YYYY")}
                 </TableCell>
-                <TableCell align="right">{row.potrosnja} KM</TableCell>
+                <TableCell align="right">
+                  {row.potrosnja.toFixed(2)} KM
+                </TableCell>
+                <TableCell align="right">
+                  <Button
+                    variant="contained"
+                    style={{ backgroundColor: "yellow" }}
+                    onClick={() => prebaci(row)}
+                  >
+                    Izmjeni
+                  </Button>{" "}
+                </TableCell>
               </TableRow>
             );
           })}

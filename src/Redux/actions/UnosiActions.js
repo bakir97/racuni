@@ -10,6 +10,7 @@ export const getAllCapex = () => async dispatch => {
 export const sacuvajPodatke = data => async dispatch => {
   try {
     await axios.post("http://localhost:5000/Unosi", data);
+    dispatch(getAllData());
     dispatch(success(true));
   } catch (error) {
     console.log(error.response.data);
