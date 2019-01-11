@@ -221,7 +221,11 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               capexi={this.props.capexi}
               data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "Zenica"
+                jedan =>
+                  jedan.poslovnaJedinica === "Zenica" &&
+                  moment(jedan.datumPocetkaSedmice).valueOf() >=
+                    moment(this.state.od || 0).valueOf() &&
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
               grad="Zenica"
               history={this.props.history}
@@ -233,7 +237,11 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               capexi={this.props.capexi}
               data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "Mostar"
+                jedan =>
+                  jedan.poslovnaJedinica === "Mostar" &&
+                  moment(jedan.datumPocetkaSedmice).valueOf() >=
+                    moment(this.state.od || 0).valueOf() &&
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
               grad="Mostar"
               history={this.props.history}
@@ -245,7 +253,11 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               capexi={this.props.capexi}
               data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "Tuzla"
+                jedan =>
+                  jedan.poslovnaJedinica === "Tuzla" &&
+                  moment(jedan.datumPocetkaSedmice).valueOf() >=
+                    moment(this.state.od || 0).valueOf() &&
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
               grad="Tuzla"
               history={this.props.history}
@@ -256,7 +268,11 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               capexi={this.props.capexi}
               data={this.props.data.filter(
-                jedan => jedan.poslovnaJedinica === "SBK"
+                jedan =>
+                  jedan.poslovnaJedinica === "SBK" &&
+                  moment(jedan.datumPocetkaSedmice).valueOf() >=
+                    moment(this.state.od || 0).valueOf() &&
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
               grad="SBK"
               history={this.props.history}
@@ -267,7 +283,12 @@ class ScrollableTabsButtonAuto extends React.Component {
           //pitat ko ovo moze vidjet
           <Test
             capexi={this.props.capexi}
-            data={this.props.data}
+            data={this.props.data.filter(
+              jedan =>
+                moment(jedan.datumPocetkaSedmice).valueOf() >=
+                  moment(this.state.od || 0).valueOf() &&
+                moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+            )}
             grad="Total"
             history={this.props.history}
             jedanUnos={this.props.jedanUnos}
