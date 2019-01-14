@@ -60,7 +60,7 @@ class index extends Component {
         >
           <Grid>
             <TextField
-              label="Username"
+              label="Početak sedmice"
               type="date"
               name="datumPocetkaSedmice"
               margin="normal"
@@ -70,7 +70,7 @@ class index extends Component {
               style={{ marginRight: 10 }}
             />
             <TextField
-              label="Username"
+              label="Kraj sedmice"
               type="date"
               name="datumZavrsetkaSedmice"
               margin="normal"
