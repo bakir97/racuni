@@ -7,6 +7,12 @@ export const getAllCapex = () => async dispatch => {
   const capexi = await axios.get("http://localhost:5000/Capex");
   dispatch(storeCapexi(capexi.data));
 };
+export const storeCapex = podaci => async dispatch => {
+  const capexi = await axios.post("http://localhost:5000/Capex", podaci);
+};
+export const saveAccount = podaci => async dispatch => {
+  const capexi = await axios.post("http://localhost:5000/signUp", podaci);
+};
 export const sacuvajPodatke = data => async dispatch => {
   try {
     await axios.post("http://localhost:5000/Unosi", data);

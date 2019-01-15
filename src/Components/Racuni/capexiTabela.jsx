@@ -83,6 +83,8 @@ class test extends Component {
               const najveci = Math.max(...najveciDatumi);
 
               const potrosnja = datumiPravi.reduce((total, trosak) => {
+                console.log(trosak.datumPocetkaSedmice, "datuk kraja");
+
                 if (
                   trosak.datumPocetkaSedmice >= odDatumState &&
                   trosak.datumZavrsetkaSedmice <= doDatumState
@@ -91,6 +93,7 @@ class test extends Component {
                 }
                 return total;
               }, 0);
+              console.log(moment(odDatumState).month(), "sto uporedujemo");
 
               console.log(troskovi_datumi, "troskovi");
               console.log(datumiPravi, "datumiPravi");
@@ -104,9 +107,9 @@ class test extends Component {
                   </TableCell>
 
                   <TableCell>{potrosnja.toFixed(2)} KM</TableCell>
-                  <TableCell>{row.odobreniBudzet.toFixed(2)} KM</TableCell>
+                  <TableCell>{row[this.props.grad].toFixed(2)} KM</TableCell>
                   <TableCell>
-                    {(row.odobreniBudzet - potrosnja).toFixed(2)} KM
+                    {(row[this.props.grad] - potrosnja).toFixed(2)} KM
                   </TableCell>
                 </TableRow>
               );

@@ -27,13 +27,19 @@ class index extends Component {
   };
   submit = e => {
     e.preventDefault();
-
+    const capexiJednaki = this.props.capexi.filter(
+      capex => capex.capexSifra === this.state.capex.capexSifra
+    );
+    const praviCapex = capexiJednaki.filter(
+      capex =>
+        moment(capex.datumPocetkaCapexa).month() ===
+        moment(this.state.datumPocetkaSedmice).month()
+    );
     this.props.sacuvajPodatke({
       ...this.state,
-      capex: this.props.capexi.filter(
-        capex => capex.capexSifra === this.state.capex.capexSifra
-      )[0]._id,
-      poslovnaJedinica: this.props.user.mjesto
+      capex: praviCapex[0]._id,
+      poslovnaJedinica: this.props.user.mjesto,
+      username: this.props.user.username
     });
     this.props.history.push("/racuni");
   };
@@ -45,8 +51,17 @@ class index extends Component {
   };
 
   render() {
-    console.log(this.state);
-
+    let array = [];
+    const samoJedan = this.props.capexi.map(jedan => {
+      if (
+        array.filter(capex => capex.capexSifra === jedan.capexSifra).length <= 0
+      ) {
+        array = [...array, jedan];
+        return jedan;
+      }
+      return null;
+    });
+    const samoJedanNull = samoJedan.filter(jedan => jedan !== null);
     return (
       <form onSubmit={this.submit}>
         <Grid
@@ -77,7 +92,7 @@ class index extends Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
-            {this.state.capex && (
+            {samoJedanNull && (
               <FormControl
                 style={{
                   width: 200,
@@ -95,7 +110,7 @@ class index extends Component {
                     id: "age-simple"
                   }}
                 >
-                  {this.props.capexi.map(capex => (
+                  {samoJedanNull.map(capex => (
                     <MenuItem key={capex._id} value={capex.capexSifra}>
                       {capex.capexSifra}
                     </MenuItem>
@@ -119,6 +134,10 @@ class index extends Component {
               variant="contained"
               style={{ backgroundColor: "#6aff3d" }}
               type="submit"
+              disabled={
+                this.state.potrosnja < 1 ||
+                this.state.capex.capexSifra.length < 1
+              }
             >
               Sačuvaj
             </Button>

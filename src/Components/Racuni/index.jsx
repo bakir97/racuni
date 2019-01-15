@@ -14,6 +14,7 @@ import { Grid, TextField } from "@material-ui/core";
 import ObicnaTabela from "./obicnaTabela";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
+import TotalTabela from "./totalTabela";
 const gradovi = ["Sarajevo", "Zenica", "Mostar", "Tuzla", "SBK"];
 function TabContainer(props) {
   return (
@@ -105,8 +106,13 @@ class ScrollableTabsButtonAuto extends React.Component {
       return null;
     });
 
-    console.log(test, "test filter");
+    console.log(moment(this.state.od).month(), "test filter");
+    console.log(isNaN(moment(this.state.od).month(), "testtss"));
 
+    const datumBroj =
+      isNaN(moment(this.state.od).month()) === false
+        ? moment(this.state.od).month()
+        : moment(Math.min(...datumiPretvoreniOd)).month();
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -156,62 +162,86 @@ class ScrollableTabsButtonAuto extends React.Component {
               label="Total"
               disabled={user.mjesto === "Sarajevo" ? false : true}
             />
+            <Tab label="Svi Unosi" />
             <Button
               style={{ marginLeft: "auto", marginRight: 20 }}
               onClick={this.logout}
             >
               Logout
             </Button>
+            {this.props.user.adminAplikacije && (
+              <>
+                <Button
+                  style={{ marginLeft: "auto", marginRight: 20 }}
+                  onClick={() => this.props.history.push("/createCapex")}
+                >
+                  Novi Capex
+                </Button>
+                <Button
+                  style={{ marginLeft: "auto", marginRight: 20 }}
+                  onClick={() => this.props.history.push("/createProfile")}
+                >
+                  Novi Profil
+                </Button>
+              </>
+            )}
           </Tabs>
         </AppBar>
-        <Grid container alignItems="center">
-          <Typography style={{ marginRight: 20 }}>
-            Filter po datumima:
-          </Typography>
-          <Typography style={{ marginRight: 20 }}>Od</Typography>
+        {value !== 6 && value !== 5 && (
+          <Grid container alignItems="center">
+            <Typography style={{ marginRight: 20 }}>
+              Filter po datumima:
+            </Typography>
+            <Typography style={{ marginRight: 20 }}>Od</Typography>
 
-          <TextField
-            type="date"
-            name="od"
-            margin="normal"
-            variant="outlined"
-            value={
-              this.state.od
-                ? this.state.od
-                : moment(Math.min(...datumiPretvoreniOd)).format("YYYY-MM-DD")
-            }
-            onChange={e => this.handleChangeInput(e)}
-            style={{ marginRight: 20 }}
-          />
-          <Typography style={{ marginRight: 20 }}>Do</Typography>
+            <TextField
+              type="date"
+              name="od"
+              margin="normal"
+              variant="outlined"
+              value={
+                this.state.od
+                  ? this.state.od
+                  : moment(Math.min(...datumiPretvoreniOd)).format("YYYY-MM-DD")
+              }
+              onChange={e => this.handleChangeInput(e)}
+              style={{ marginRight: 20 }}
+            />
+            <Typography style={{ marginRight: 20 }}>Do</Typography>
 
-          <TextField
-            type="date"
-            name="do"
-            margin="normal"
-            variant="outlined"
-            value={
-              this.state.do
-                ? this.state.do
-                : moment(
-                    moment(Math.max(...datumiPretvoreniDo)).format("YYYY-MM-DD")
-                  ).format("YYYY-MM-DD")
-            }
-            onChange={e => this.handleChangeInput(e)}
-            style={{ marginRight: 10 }}
-          />
-        </Grid>
+            <TextField
+              type="date"
+              name="do"
+              margin="normal"
+              variant="outlined"
+              value={
+                this.state.do
+                  ? this.state.do
+                  : moment(
+                      moment(Math.max(...datumiPretvoreniDo)).format(
+                        "YYYY-MM-DD"
+                      )
+                    ).format("YYYY-MM-DD")
+              }
+              onChange={e => this.handleChangeInput(e)}
+              style={{ marginRight: 10 }}
+            />
+          </Grid>
+        )}
         {value === 0 && user.mjesto === "Sarajevo" && (
           <Test
-            capexi={this.props.capexi}
+            capexi={this.props.capexi.filter(
+              capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
+            )}
             data={this.props.data.filter(
               jedan =>
                 jedan.poslovnaJedinica === "Sarajevo" &&
                 moment(jedan.datumPocetkaSedmice).valueOf() >=
                   moment(this.state.od || 0).valueOf() &&
-                moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+                moment(jedan.datumZavrsetkaSedmice).valueOf() - 86400000 <=
+                  doDatumMoment
             )}
-            grad="Sarajevo"
+            grad="budzetSarajevo"
             history={this.props.history}
             jedanUnos={this.props.jedanUnos}
           />
@@ -219,7 +249,9 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 1 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Zenica") && (
             <Test
-              capexi={this.props.capexi}
+              capexi={this.props.capexi.filter(
+                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
+              )}
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "Zenica" &&
@@ -227,7 +259,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                     moment(this.state.od || 0).valueOf() &&
                   moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
-              grad="Zenica"
+              grad="budzetZenica"
               history={this.props.history}
               jedanUnos={this.props.jedanUnos}
             />
@@ -235,7 +267,9 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 2 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Mostar") && (
             <Test
-              capexi={this.props.capexi}
+              capexi={this.props.capexi.filter(
+                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
+              )}
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "Mostar" &&
@@ -243,7 +277,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                     moment(this.state.od || 0).valueOf() &&
                   moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
-              grad="Mostar"
+              grad="budzetMostar"
               history={this.props.history}
               jedanUnos={this.props.jedanUnos}
             />
@@ -251,22 +285,27 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 3 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Tuzla") && (
             <Test
-              capexi={this.props.capexi}
+              capexi={this.props.capexi.filter(
+                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
+              )}
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "Tuzla" &&
                   moment(jedan.datumPocetkaSedmice).valueOf() >=
                     moment(this.state.od || 0).valueOf() &&
-                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() - 86400000 <=
+                    doDatumMoment
               )}
-              grad="Tuzla"
+              grad="budzetTuzla"
               history={this.props.history}
             />
           )}
         {value === 4 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
             <Test
-              capexi={this.props.capexi}
+              capexi={this.props.capexi.filter(
+                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
+              )}
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "SBK" &&
@@ -274,28 +313,29 @@ class ScrollableTabsButtonAuto extends React.Component {
                     moment(this.state.od || 0).valueOf() &&
                   moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
               )}
-              grad="SBK"
+              grad="budzetSBK"
               history={this.props.history}
               jedanUnos={this.props.jedanUnos}
             />
           )}
         {value === 5 && user.mjesto === "Sarajevo" && (
           //pitat ko ovo moze vidjet
-          <Test
+          <TotalTabela
             capexi={this.props.capexi}
-            data={this.props.data.filter(
-              jedan =>
-                moment(jedan.datumPocetkaSedmice).valueOf() >=
-                  moment(this.state.od || 0).valueOf() &&
-                moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
-            )}
+            // data={this.props.data.filter(
+            //   jedan =>
+            //     moment(jedan.datumPocetkaSedmice).valueOf() >=
+            //       moment(this.state.od || 0).valueOf() &&
+            //     moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+            // )}
+            data={this.props.data}
             grad="Total"
             history={this.props.history}
             jedanUnos={this.props.jedanUnos}
           />
         )}
-        <Typography style={{ marginTop: 20 }}>Svi Unosi</Typography>
-        {value === 0 && user.mjesto === "Sarajevo" && (
+
+        {/* {value === 0 && user.mjesto === "Sarajevo" && (
           <>
             <ObicnaTabela
               capexi={this.props.capexi}
@@ -400,6 +440,31 @@ class ScrollableTabsButtonAuto extends React.Component {
             >
               Dodaj
             </Button>
+          </>
+        )} */}
+        {value === 6 && (
+          <>
+            <Button
+              style={{ marginTop: 20 }}
+              variant="contained"
+              color="primary"
+              onClick={() => this.props.history.push("/createUnos")}
+            >
+              Dodaj
+            </Button>
+            <ObicnaTabela
+              capexi={this.props.capexi}
+              data={
+                this.props.user.mjesto === "Sarajevo"
+                  ? this.props.data
+                  : this.props.data.filter(
+                      jedan => jedan.poslovnaJedinica === this.props.user.mjesto
+                    )
+              }
+              mjesto={this.props.user.mjesto}
+              history={this.props.history}
+              jedanUnos={this.props.jedanUnos}
+            />
           </>
         )}
       </div>

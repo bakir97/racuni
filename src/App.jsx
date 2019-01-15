@@ -5,11 +5,20 @@ import { withRouter, Route, Switch } from "react-router-dom";
 import Racuni from "./Components/Racuni";
 import EditUnose from "./Components/Racuni/EditUnose";
 import CreateUnose from "./Components/Racuni/createUnose";
+import CreateCapex from "./Components/Racuni/createCapex";
+import CreateProfile from "./Components/Racuni/createProfile";
 class App extends Component {
   render() {
     const auth = this.props.all.user.isAuth ? (
       <Switch>
         <Route path="/createUnos" component={CreateUnose} />
+        {this.props.all.user.adminAplikacije && (
+          <Route path="/createCapex" component={CreateCapex} />
+        )}
+        {this.props.all.user.adminAplikacije && (
+          <Route path="/createProfile" component={CreateProfile} />
+        )}
+
         <Route path="/editUnos" component={EditUnose} />
         <Route path="/racuni" component={Racuni} />
         <Route exact path="/" render={props => <Login {...props} />} />

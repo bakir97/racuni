@@ -23,7 +23,7 @@ const styles = theme => ({
 });
 
 function SimpleTable(props) {
-  const { classes, data } = props;
+  const { classes, data, mjesto } = props;
   const prebaci = data => {
     props.jedanUnos(data);
     props.history.push("/EditUnos");
@@ -37,6 +37,8 @@ function SimpleTable(props) {
             <TableCell align="right">Od</TableCell>
             <TableCell align="right">Do</TableCell>
             <TableCell align="right">Potrosnja</TableCell>
+            <TableCell align="right">Username</TableCell>
+            <TableCell align="right">Datum objave</TableCell>
             <TableCell align="right" />
           </TableRow>
         </TableHead>
@@ -56,14 +58,21 @@ function SimpleTable(props) {
                 <TableCell align="right">
                   {row.potrosnja.toFixed(2)} KM
                 </TableCell>
+                <TableCell align="right">{row.username}</TableCell>
                 <TableCell align="right">
-                  <Button
-                    variant="contained"
-                    style={{ backgroundColor: "yellow" }}
-                    onClick={() => prebaci(row)}
-                  >
-                    Izmjeni
-                  </Button>{" "}
+                  {moment(row.updatedAt).format("DD/MM/YYYY")}
+                </TableCell>
+
+                <TableCell align="right">
+                  {mjesto === row.poslovnaJedinica && (
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: "yellow" }}
+                      onClick={() => prebaci(row)}
+                    >
+                      Izmjeni
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             );

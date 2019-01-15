@@ -18,7 +18,7 @@ export default (state = initialState, { type, payload }) => {
     case "ALL_DATA":
       return {
         ...state,
-        data: payload
+        data: payload.reverse()
       };
     case "CAPEXI_DATUMI":
       return {

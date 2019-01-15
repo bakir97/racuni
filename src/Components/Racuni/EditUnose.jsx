@@ -23,11 +23,17 @@ class index extends Component {
   };
   submit = e => {
     e.preventDefault();
+    const capexiJednaki = this.props.capexi.filter(
+      capex => capex.capexSifra === this.state.capex.capexSifra
+    );
+    const praviCapex = capexiJednaki.filter(
+      capex =>
+        moment(capex.datumPocetkaCapexa).month() ===
+        moment(this.state.datumPocetkaSedmice).month()
+    );
     this.props.sacuvajPodatke({
       ...this.state,
-      capex: this.props.capexi.filter(
-        capex => capex.capexSifra === this.state.capex.capexSifra
-      )[0]._id,
+      capex: praviCapex[0]._id,
       poslovnaJedinica: this.props.user.mjesto
     });
     this.props.history.push("/racuni");
