@@ -15,7 +15,8 @@ const Unosi = new Schema(
       type: String,
       required: true
     },
-    capex: { type: Schema.Types.ObjectId, ref: "capex" }
+    capex: { type: Schema.Types.ObjectId, ref: "capex" },
+    username: { type: String, required: true }
   },
   { timestamps: true }
 );
