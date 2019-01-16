@@ -226,6 +226,14 @@ class ScrollableTabsButtonAuto extends React.Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
+            <Button
+              style={{marginLeft:"auto", marginTop: 20 }}
+              variant="contained"
+              color="primary"
+              onClick={() => this.props.history.push("/createUnos")}
+            >
+            Novi unos
+            </Button>
           </Grid>
         )}
         {value === 0 && user.mjesto === "Sarajevo" && (
@@ -444,14 +452,7 @@ class ScrollableTabsButtonAuto extends React.Component {
         )} */}
         {value === 6 && (
           <>
-            <Button
-              style={{ marginTop: 20 }}
-              variant="contained"
-              color="primary"
-              onClick={() => this.props.history.push("/createUnos")}
-            >
-              Dodaj
-            </Button>
+            
             <ObicnaTabela
               capexi={this.props.capexi}
               data={
