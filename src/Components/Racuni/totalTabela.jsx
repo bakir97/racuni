@@ -27,7 +27,12 @@ class test extends Component {
   };
   sumaPotrosnjih = grad => {
     return this.props.data.reduce((total, jednaPotrosnja) => {
-      if (jednaPotrosnja.poslovnaJedinica === grad) {
+      if (
+        jednaPotrosnja.poslovnaJedinica === grad &&
+        this.props.capexi.filter(jedanCapex =>
+          jedanCapex.capexSifra.includes(jednaPotrosnja.capex.capexSifra)
+        ).length > 0
+      ) {
         return total + jednaPotrosnja.potrosnja;
       }
       return total;
@@ -37,7 +42,14 @@ class test extends Component {
   render() {
     const ukupnaPotrosnjaSvi = this.props.data.reduce(
       (total, jednaPotrosnja) => {
-        return total + jednaPotrosnja.potrosnja;
+        if (
+          this.props.capexi.filter(jedanCapex =>
+            jedanCapex.capexSifra.includes(jednaPotrosnja.capex.capexSifra)
+          ).length > 0
+        ) {
+          return total + jednaPotrosnja.potrosnja;
+        }
+        return total;
       },
       0
     );
