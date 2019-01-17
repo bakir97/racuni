@@ -21,7 +21,12 @@ class index extends Component {
     budzetZenica: "",
     budzetMostar: "",
     budzetTuzla: "",
-    budzetSBK: ""
+    budzetSBK: "",
+    Sarajevo: "",
+    Zenica: "",
+    Mostar: "",
+    Tuzla: "",
+    SBK: ""
   };
   componentDidMount() {
     this.props.getAllCapex();
@@ -133,6 +138,98 @@ class index extends Component {
               />
             </Grid>
           </Grid>
+          {/* <Grid>
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel>Sarajevo</InputLabel>
+              <Select
+                name="Sarajevo"
+                value={this.state.Sarajevo}
+                onChange={this.handleChangeInput}
+              >
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel>Zenica</InputLabel>
+              <Select
+                name="Zenica"
+                value={this.state.Zenica}
+                onChange={this.handleChangeInput}
+              >
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel>Mostar</InputLabel>
+              <Select
+                name="Mostar"
+                value={this.state.Mostar}
+                onChange={this.handleChangeInput}
+              >
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel>Tuzla</InputLabel>
+              <Select
+                name="Tuzla"
+                value={this.state.Tuzla}
+                onChange={this.handleChangeInput}
+              >
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel>SBK</InputLabel>
+              <Select
+                name="SBK"
+                value={this.state.SBK}
+                onChange={this.handleChangeInput}
+              >
+                <MenuItem value={true}>True</MenuItem>
+                <MenuItem value={false}>False</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid> */}
           <Grid>
             <Button
               variant="contained"

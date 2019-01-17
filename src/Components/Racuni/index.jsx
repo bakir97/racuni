@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { getAllData, getAllCapex } from "../../Redux/actions/UnosiActions";
 import { jedanUnos, success } from "../../Redux/actions/UnosiActions";
 import { loginUser } from "../../Redux/actions/LoginAction";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, FormControlLabel, Checkbox } from "@material-ui/core";
 import ObicnaTabela from "./obicnaTabela";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -42,7 +42,9 @@ class ScrollableTabsButtonAuto extends React.Component {
     data: [],
     open: true,
     od: null,
-    do: null
+    do: null,
+    capexi: [],
+    prikaziCapexFilter: false
   };
   componentDidMount() {
     this.props.getAllData();
@@ -71,6 +73,55 @@ class ScrollableTabsButtonAuto extends React.Component {
     localStorage.removeItem("user");
     this.props.loginUser({});
     this.props.history.push("/");
+  };
+  inputBoxovi = () => {
+    let array = [];
+    const samoJedan = this.props.capexi
+      .map(jedan => {
+        if (
+          array.filter(capex => capex.capexSifra === jedan.capexSifra).length <=
+          0
+        ) {
+          array = [...array, jedan];
+          return jedan;
+        }
+        return null;
+      })
+      .filter(jedan => jedan !== null);
+    console.log(samoJedan, "samo jedan bi trebao");
+
+    return samoJedan.map(capex => (
+      <FormControlLabel
+        style={{ margin: 10 }}
+        control={
+          <Checkbox
+            name={capex.capexSifra}
+            checked={
+              this.state.capexi.filter(
+                capexState => capexState.capexSifra === capex.capexSifra
+              ).length > 0
+            }
+            onChange={() => this.changeCapexe(capex)}
+            value={capex.capexSifra}
+          />
+        }
+        label={capex.capexSifra}
+      />
+    ));
+  };
+  changeCapexe = capex => {
+    if (
+      this.state.capexi.filter(
+        capexState => capexState.capexSifra === capex.capexSifra
+      ).length > 0
+    ) {
+      return this.setState({
+        capexi: this.state.capexi.filter(
+          capexState => capexState.capexSifra !== capex.capexSifra
+        )
+      });
+    }
+    this.setState({ capexi: [...this.state.capexi, capex] });
   };
   render() {
     const { classes, user } = this.props;
@@ -109,10 +160,19 @@ class ScrollableTabsButtonAuto extends React.Component {
     console.log(moment(this.state.od).month(), "test filter");
     console.log(isNaN(moment(this.state.od).month(), "testtss"));
 
-    const datumBroj =
+    let datumBroj =
       isNaN(moment(this.state.od).month()) === false
         ? moment(this.state.od).month()
         : moment(Math.min(...datumiPretvoreniOd)).month();
+    const odBrojMjesec =
+      isNaN(moment(this.state.od).month()) === false
+        ? moment(this.state.od).month()
+        : moment(Math.min(...datumiPretvoreniOd)).month();
+    const doBrojMjesec =
+      isNaN(moment(this.state.do).month()) === false
+        ? moment(this.state.do).month()
+        : moment(Math.max(...datumiPretvoreniOd)).month();
+
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
@@ -172,13 +232,13 @@ class ScrollableTabsButtonAuto extends React.Component {
             {this.props.user.adminAplikacije && (
               <>
                 <Button
-                  style={{ marginLeft: "auto", marginRight: 20 }}
+                  style={{ marginRight: 20 }}
                   onClick={() => this.props.history.push("/createCapex")}
                 >
                   Novi Capex
                 </Button>
                 <Button
-                  style={{ marginLeft: "auto", marginRight: 20 }}
+                  style={{ marginRight: 20 }}
                   onClick={() => this.props.history.push("/createProfile")}
                 >
                   Novi Profil
@@ -187,60 +247,104 @@ class ScrollableTabsButtonAuto extends React.Component {
             )}
           </Tabs>
         </AppBar>
-        {value !== 6 && value !== 5 && (
-          <Grid container alignItems="center">
-            <Typography style={{ marginRight: 20 }}>
-              Filter po datumima:
-            </Typography>
-            <Typography style={{ marginRight: 20 }}>Od</Typography>
+        {value !== 6 && (
+          <>
+            <Grid container alignItems="center">
+              <Typography style={{ marginRight: 20 }}>
+                Filter po datumima:
+              </Typography>
+              <Typography style={{ marginRight: 20 }}>Od</Typography>
 
-            <TextField
-              type="date"
-              name="od"
-              margin="normal"
-              variant="outlined"
-              value={
-                this.state.od
-                  ? this.state.od
-                  : moment(Math.min(...datumiPretvoreniOd)).format("YYYY-MM-DD")
-              }
-              onChange={e => this.handleChangeInput(e)}
-              style={{ marginRight: 20 }}
-            />
-            <Typography style={{ marginRight: 20 }}>Do</Typography>
-
-            <TextField
-              type="date"
-              name="do"
-              margin="normal"
-              variant="outlined"
-              value={
-                this.state.do
-                  ? this.state.do
-                  : moment(
-                      moment(Math.max(...datumiPretvoreniDo)).format(
+              <TextField
+                type="date"
+                name="od"
+                margin="normal"
+                variant="outlined"
+                value={
+                  this.state.od
+                    ? this.state.od
+                    : moment(Math.min(...datumiPretvoreniOd)).format(
                         "YYYY-MM-DD"
                       )
-                    ).format("YYYY-MM-DD")
-              }
-              onChange={e => this.handleChangeInput(e)}
-              style={{ marginRight: 10 }}
-            />
+                }
+                onChange={e => this.handleChangeInput(e)}
+                style={{ marginRight: 20 }}
+              />
+              <Typography style={{ marginRight: 20 }}>Do</Typography>
+
+              <TextField
+                type="date"
+                name="do"
+                margin="normal"
+                variant="outlined"
+                value={
+                  this.state.do
+                    ? this.state.do
+                    : moment(
+                        moment(Math.max(...datumiPretvoreniDo)).format(
+                          "YYYY-MM-DD"
+                        )
+                      ).format("YYYY-MM-DD")
+                }
+                onChange={e => this.handleChangeInput(e)}
+                style={{ marginRight: 10 }}
+              />
+              {this.state.value ===
+                gradovi.findIndex(grad => grad === this.props.user.mjesto) && (
+                <Button
+                  style={{ marginLeft: "auto", marginTop: 20 }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => this.props.history.push("/createUnos")}
+                >
+                  Novi unos
+                </Button>
+              )}
+            </Grid>
             <Button
-              style={{marginLeft:"auto", marginTop: 20 }}
-              variant="contained"
-              color="primary"
-              onClick={() => this.props.history.push("/createUnos")}
+              style={{ marginRight: 20 }}
+              onClick={() =>
+                this.setState(prevState => ({
+                  prikaziCapexFilter: !prevState.prikaziCapexFilter
+                }))
+              }
             >
-            Novi unos
+              {this.state.prikaziCapexFilter
+                ? "Zatvori filter"
+                : "Prikazi filter za capexe"}
             </Button>
-          </Grid>
+            {this.state.prikaziCapexFilter && (
+              <div
+                style={{
+                  height: 100,
+                  overflow: "auto",
+                  display: "flex",
+                  flexDirection: "column"
+                }}
+                container
+                direction="column"
+              >
+                {this.inputBoxovi()}
+              </div>
+            )}
+          </>
         )}
         {value === 0 && user.mjesto === "Sarajevo" && (
           <Test
-            capexi={this.props.capexi.filter(
-              capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
-            )}
+            sviCapexi={this.props.capexi}
+            odBrojMjesec={odBrojMjesec}
+            doBrojMjesec={doBrojMjesec}
+            capexi={
+              this.state.capexi.length > 0
+                ? this.state.capexi.filter(
+                    capex =>
+                      moment(capex.datumPocetkaCapexa).month() === datumBroj
+                  )
+                : this.props.capexi.filter(
+                    capex =>
+                      moment(capex.datumPocetkaCapexa).month() === datumBroj
+                  )
+            }
             data={this.props.data.filter(
               jedan =>
                 jedan.poslovnaJedinica === "Sarajevo" &&
@@ -257,15 +361,27 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 1 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Zenica") && (
             <Test
-              capexi={this.props.capexi.filter(
-                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
-              )}
+              sviCapexi={this.props.capexi}
+              odBrojMjesec={odBrojMjesec}
+              doBrojMjesec={doBrojMjesec}
+              capexi={
+                this.state.capexi.length > 0
+                  ? this.state.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+                  : this.props.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+              }
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "Zenica" &&
                   moment(jedan.datumPocetkaSedmice).valueOf() >=
                     moment(this.state.od || 0).valueOf() &&
-                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() - 86400000 <=
+                    doDatumMoment
               )}
               grad="budzetZenica"
               history={this.props.history}
@@ -275,15 +391,27 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 2 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Mostar") && (
             <Test
-              capexi={this.props.capexi.filter(
-                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
-              )}
+              sviCapexi={this.props.capexi}
+              odBrojMjesec={odBrojMjesec}
+              doBrojMjesec={doBrojMjesec}
+              capexi={
+                this.state.capexi.length > 0
+                  ? this.state.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+                  : this.props.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+              }
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "Mostar" &&
                   moment(jedan.datumPocetkaSedmice).valueOf() >=
                     moment(this.state.od || 0).valueOf() &&
-                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() - 86400000 <=
+                    doDatumMoment
               )}
               grad="budzetMostar"
               history={this.props.history}
@@ -293,9 +421,20 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 3 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Tuzla") && (
             <Test
-              capexi={this.props.capexi.filter(
-                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
-              )}
+              sviCapexi={this.props.capexi}
+              odBrojMjesec={odBrojMjesec}
+              doBrojMjesec={doBrojMjesec}
+              capexi={
+                this.state.capexi.length > 0
+                  ? this.state.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+                  : this.props.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+              }
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "Tuzla" &&
@@ -311,15 +450,27 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 4 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
             <Test
-              capexi={this.props.capexi.filter(
-                capex => moment(capex.datumPocetkaCapexa).month() === datumBroj
-              )}
+              sviCapexi={this.props.capexi}
+              odBrojMjesec={odBrojMjesec}
+              doBrojMjesec={doBrojMjesec}
+              capexi={
+                this.state.capexi.length > 0
+                  ? this.state.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+                  : this.props.capexi.filter(
+                      capex =>
+                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                    )
+              }
               data={this.props.data.filter(
                 jedan =>
                   jedan.poslovnaJedinica === "SBK" &&
                   moment(jedan.datumPocetkaSedmice).valueOf() >=
                     moment(this.state.od || 0).valueOf() &&
-                  moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
+                  moment(jedan.datumZavrsetkaSedmice).valueOf() - 86400000 <=
+                    doDatumMoment
               )}
               grad="budzetSBK"
               history={this.props.history}
@@ -327,16 +478,22 @@ class ScrollableTabsButtonAuto extends React.Component {
             />
           )}
         {value === 5 && user.mjesto === "Sarajevo" && (
-          //pitat ko ovo moze vidjet
           <TotalTabela
-            capexi={this.props.capexi}
-            // data={this.props.data.filter(
-            //   jedan =>
-            //     moment(jedan.datumPocetkaSedmice).valueOf() >=
-            //       moment(this.state.od || 0).valueOf() &&
-            //     moment(jedan.datumZavrsetkaSedmice).valueOf() <= doDatumMoment
-            // )}
-            data={this.props.data}
+            odBrojMjesec={odBrojMjesec}
+            doBrojMjesec={doBrojMjesec}
+            capexi={
+              this.state.capexi.length > 0
+                ? this.state.capexi
+                : this.props.capexi
+            }
+            data={this.props.data.filter(
+              jedan =>
+                moment(jedan.datumPocetkaSedmice).valueOf() >=
+                  moment(this.state.od || 0).valueOf() &&
+                moment(jedan.datumZavrsetkaSedmice).valueOf() - 86400000 <=
+                  doDatumMoment
+            )}
+            // data={this.props.data}
             grad="Total"
             history={this.props.history}
             jedanUnos={this.props.jedanUnos}
@@ -452,7 +609,6 @@ class ScrollableTabsButtonAuto extends React.Component {
         )} */}
         {value === 6 && (
           <>
-            
             <ObicnaTabela
               capexi={this.props.capexi}
               data={
