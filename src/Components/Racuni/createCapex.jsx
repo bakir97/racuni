@@ -138,7 +138,7 @@ class index extends Component {
               />
             </Grid>
           </Grid>
-          {/* <Grid>
+          <Grid>
             <FormControl
               style={{
                 width: 200,
@@ -229,7 +229,7 @@ class index extends Component {
                 <MenuItem value={false}>False</MenuItem>
               </Select>
             </FormControl>
-          </Grid> */}
+          </Grid>
           <Grid>
             <Button
               variant="contained"

@@ -29,6 +29,30 @@ class test extends Component {
 
   render() {
     const { classes } = this.props;
+    const ukupnaPotrosnjaSvi = this.props.data.reduce(
+      (total, jednaPotrosnja) => {
+        if (
+          this.props.capexi.filter(jedanCapex =>
+            jedanCapex.capexSifra.includes(jednaPotrosnja.capex.capexSifra)
+          ).length > 0
+        ) {
+          return total + jednaPotrosnja.potrosnja;
+        }
+        return total;
+      },
+      0
+    );
+    console.log(this.props.capexi, "capexi sto mi trebaju");
+
+    const SviOdobreniBudzeti = this.props.capexi.reduce((total, capex) => {
+      if (
+        moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
+        moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
+      ) {
+        return total + capex[this.props.grad];
+      }
+      return total;
+    }, 0);
     return (
       <>
         <ReactHTMLTableToExcel
@@ -140,14 +164,60 @@ class test extends Component {
                       {row.capexSifra}
                     </TableCell>
 
-                    <TableCell>{potrosnja.toFixed(2)} KM</TableCell>
-                    <TableCell>{zbirBudzetaMjeseci.toFixed(2)} KM</TableCell>
                     <TableCell>
-                      {(zbirBudzetaMjeseci - potrosnja).toFixed(2)} KM
+                      {potrosnja.toLocaleString("bs", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
+                      KM
+                    </TableCell>
+                    <TableCell>
+                      {zbirBudzetaMjeseci.toLocaleString("bs", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
+                      KM
+                    </TableCell>
+                    <TableCell>
+                      {(zbirBudzetaMjeseci - potrosnja).toLocaleString("bs", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
+                      KM
                     </TableCell>
                   </TableRow>
                 );
               })}
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  Svi Capexi
+                </TableCell>
+
+                <TableCell>
+                  {ukupnaPotrosnjaSvi.toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
+                </TableCell>
+                <TableCell>
+                  {SviOdobreniBudzeti.toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
+                </TableCell>
+                <TableCell>
+                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
+                    "bs",
+                    {
+                      maximumFractionDigits: 2,
+                      minumumFractionDigits: 2
+                    }
+                  )}{" "}
+                  KM
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </Paper>

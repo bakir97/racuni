@@ -38,6 +38,7 @@ function SimpleTable(props) {
             <TableCell align="right">Do</TableCell>
             <TableCell align="right">Potrosnja</TableCell>
             <TableCell align="right">Username</TableCell>
+            <TableCell align="right">Poslovna jedinica</TableCell>
             <TableCell align="right">Datum objave</TableCell>
             <TableCell align="right" />
           </TableRow>
@@ -56,23 +57,30 @@ function SimpleTable(props) {
                   {moment(row.datumZavrsetkaSedmice).format("DD/MM/YYYY")}
                 </TableCell>
                 <TableCell align="right">
-                  {row.potrosnja.toFixed(2)} KM
+                  {row.potrosnja.toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell align="right">{row.username}</TableCell>
+                <TableCell align="right">{row.poslovnaJedinica}</TableCell>
                 <TableCell align="right">
                   {moment(row.updatedAt).format("DD/MM/YYYY")}
                 </TableCell>
 
                 <TableCell align="right">
-                  {mjesto === row.poslovnaJedinica && (
-                    <Button
-                      variant="contained"
-                      style={{ backgroundColor: "yellow" }}
-                      onClick={() => prebaci(row)}
-                    >
-                      Izmjeni
-                    </Button>
-                  )}
+                  {(mjesto === row.poslovnaJedinica ||
+                    props.user.adminAplikacije) &&
+                    !props.user.direktor && (
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "yellow" }}
+                        onClick={() => prebaci(row)}
+                      >
+                        Izmjeni
+                      </Button>
+                    )}
                 </TableCell>
               </TableRow>
             );
@@ -86,7 +94,9 @@ function SimpleTable(props) {
 SimpleTable.propTypes = {
   classes: PropTypes.object.isRequired
 };
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user: state.all.user
+});
 
 const mapDispatchToProps = { jedanUnos };
 

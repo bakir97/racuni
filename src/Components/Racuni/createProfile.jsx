@@ -12,6 +12,8 @@ import {
   jedanUnos,
   getAllCapex
 } from "../../Redux/actions/UnosiActions";
+const gradovi = ["Sarajevo", "Zenica", "Mostar", "Tuzla", "SBK"];
+
 class index extends Component {
   state = {
     adminAplikacije: "",
@@ -71,16 +73,32 @@ class index extends Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
-            <TextField
-              label="Mjesto"
-              type="text"
-              name="mjesto"
-              margin="normal"
-              variant="outlined"
-              value={this.state.mjesto}
-              onChange={e => this.handleChangeInput(e)}
-              style={{ marginRight: 10 }}
-            />
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel htmlFor="jedinica">Poslovna Jedinica</InputLabel>
+              <Select
+                name="mjesto"
+                value={this.state.mjesto}
+                onChange={this.handleChangeInput}
+                inputProps={{
+                  jedinica: "age",
+                  id: "mjesto"
+                }}
+              >
+                {gradovi.map(grad => (
+                  <MenuItem key={grad} value={grad}>
+                    {grad}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
             <FormControl
               style={{
                 width: 200,

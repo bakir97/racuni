@@ -12,12 +12,14 @@ import {
   jedanUnos,
   getAllCapex
 } from "../../Redux/actions/UnosiActions";
+const gradovi = ["Sarajevo", "Zenica", "Mostar", "Tuzla", "SBK"];
 class index extends Component {
   state = {
     datumPocetkaSedmice: moment().format("YYYY-MM-DD"),
     datumZavrsetkaSedmice: moment().format("YYYY-MM-DD"),
     potrosnja: 0,
-    capex: { capexSifra: "" }
+    capex: { capexSifra: "" },
+    poslovnaJedinica: ""
   };
   componentDidMount() {
     this.props.getAllCapex();
@@ -38,7 +40,10 @@ class index extends Component {
     this.props.sacuvajPodatke({
       ...this.state,
       capex: praviCapex[0]._id,
-      poslovnaJedinica: this.props.user.mjesto,
+      poslovnaJedinica:
+        this.props.user.mjesto === "Sarajevo"
+          ? this.state.poslovnaJedinica
+          : this.props.user.mjesto,
       username: this.props.user.username
     });
     this.props.history.push("/racuni");
@@ -92,6 +97,31 @@ class index extends Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
+            <FormControl
+              style={{
+                width: 200,
+                marginLeft: 20,
+                marginRight: 20,
+                marginTop: 20
+              }}
+            >
+              <InputLabel htmlFor="jedinica">Poslovna Jedinica</InputLabel>
+              <Select
+                name="poslovnaJedinica"
+                value={this.state.poslovnaJedinica}
+                onChange={this.handleChangeInput}
+                inputProps={{
+                  jedinica: "age",
+                  id: "jedinica"
+                }}
+              >
+                {gradovi.map(grad => (
+                  <MenuItem key={grad} value={grad}>
+                    {grad}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             {samoJedanNull && (
               <FormControl
                 style={{

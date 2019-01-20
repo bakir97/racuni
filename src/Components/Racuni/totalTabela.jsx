@@ -262,16 +262,62 @@ class test extends Component {
                       <TableCell component="th" scope="row">
                         {samoJedan[i].capexSifra}
                       </TableCell>
-                      <TableCell>{potrosnjaSarajevo.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaZenica.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaMostar.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaTuzla.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaSBK.toFixed(2)} KM</TableCell>
-                      <TableCell>{ZbirSvih.toFixed(2)} KM</TableCell>
-
-                      <TableCell>{odobreniBudzetZbir.toFixed(2)} KM</TableCell>
                       <TableCell>
-                        {(odobreniBudzetZbir - ZbirSvih).toFixed(2)} KM
+                        {potrosnjaSarajevo.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+                      <TableCell>
+                        {potrosnjaZenica.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+                      <TableCell>
+                        {potrosnjaMostar.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+                      <TableCell>
+                        {potrosnjaTuzla.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+                      <TableCell>
+                        {potrosnjaSBK.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+                      <TableCell>
+                        {ZbirSvih.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+
+                      <TableCell>
+                        {odobreniBudzetZbir.toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
+                      </TableCell>
+                      <TableCell>
+                        {(odobreniBudzetZbir - ZbirSvih).toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })}{" "}
+                        KM
                       </TableCell>
                     </TableRow>
                   )
@@ -282,28 +328,63 @@ class test extends Component {
                   Svi Capexi
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {this.sumaPotrosnjih("Sarajevo").toFixed(2)} KM
+                  {this.sumaPotrosnjih("Sarajevo").toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {this.sumaPotrosnjih("Zenica").toFixed(2)} KM
+                  {this.sumaPotrosnjih("Zenica").toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {this.sumaPotrosnjih("Mostar").toFixed(2)} KM
+                  {this.sumaPotrosnjih("Mostar").toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {this.sumaPotrosnjih("Tuzla").toFixed(2)} KM
+                  {this.sumaPotrosnjih("Tuzla").toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {this.sumaPotrosnjih("SBK").toFixed(2)} KM
+                  {this.sumaPotrosnjih("SBK").toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {ukupnaPotrosnjaSvi.toFixed(2)} KM
+                  {ukupnaPotrosnjaSvi.toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {SviOdobreniBudzeti.toFixed(2)} KM
+                  {SviOdobreniBudzeti.toLocaleString("bs", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
+                  KM
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toFixed(2)} KM
+                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
+                    "bs",
+                    {
+                      maximumFractionDigits: 2,
+                      minumumFractionDigits: 2
+                    }
+                  )}{" "}
+                  KM
                 </TableCell>
                 {/* <TableCell>{potrosnjaSarajevo.toFixed(2)} KM</TableCell>
                       <TableCell>{potrosnjaZenica.toFixed(2)} KM</TableCell>

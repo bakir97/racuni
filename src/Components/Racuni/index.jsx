@@ -92,7 +92,7 @@ class ScrollableTabsButtonAuto extends React.Component {
 
     return samoJedan.map(capex => (
       <FormControlLabel
-        style={{ margin: 10 }}
+        style={{ margin: 15, marginLeft: 10 }}
         control={
           <Checkbox
             name={capex.capexSifra}
@@ -290,16 +290,17 @@ class ScrollableTabsButtonAuto extends React.Component {
                 style={{ marginRight: 10 }}
               />
               {this.state.value ===
-                gradovi.findIndex(grad => grad === this.props.user.mjesto) && (
-                <Button
-                  style={{ marginLeft: "auto", marginTop: 20 }}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => this.props.history.push("/createUnos")}
-                >
-                  Novi unos
-                </Button>
-              )}
+                gradovi.findIndex(grad => grad === this.props.user.mjesto) &&
+                !this.props.user.direktor && (
+                  <Button
+                    style={{ marginLeft: "auto", marginTop: 20 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.props.history.push("/createUnos")}
+                  >
+                    Novi unos
+                  </Button>
+                )}
             </Grid>
             <Button
               style={{ marginRight: 20 }}
@@ -368,11 +369,13 @@ class ScrollableTabsButtonAuto extends React.Component {
                 this.state.capexi.length > 0
                   ? this.state.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.Zenica === true
                     )
                   : this.props.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.Zenica === true
                     )
               }
               data={this.props.data.filter(
@@ -398,11 +401,13 @@ class ScrollableTabsButtonAuto extends React.Component {
                 this.state.capexi.length > 0
                   ? this.state.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.Mostar === true
                     )
                   : this.props.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.Mostar === true
                     )
               }
               data={this.props.data.filter(
@@ -428,11 +433,13 @@ class ScrollableTabsButtonAuto extends React.Component {
                 this.state.capexi.length > 0
                   ? this.state.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.Tuzla === true
                     )
                   : this.props.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.Tuzla === true
                     )
               }
               data={this.props.data.filter(
@@ -450,18 +457,20 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 4 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
             <Test
-              sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
               doBrojMjesec={doBrojMjesec}
+              sviCapexi={this.props.capexi}
               capexi={
                 this.state.capexi.length > 0
                   ? this.state.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.SBK === true
                     )
                   : this.props.capexi.filter(
                       capex =>
-                        moment(capex.datumPocetkaCapexa).month() === datumBroj
+                        moment(capex.datumPocetkaCapexa).month() ===
+                          datumBroj && capex.SBK === true
                     )
               }
               data={this.props.data.filter(

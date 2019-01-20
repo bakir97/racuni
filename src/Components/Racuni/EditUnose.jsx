@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { sacuvajPodatke, jedanUnos } from "../../Redux/actions/UnosiActions";
+const gradovi = ["Sarajevo", "Zenica", "Mostar", "Tuzla", "SBK"];
 class index extends Component {
   state = {
     ...this.props.jedanUnosState,
@@ -16,7 +17,8 @@ class index extends Component {
     ).format("YYYY-MM-DD"),
     datumZavrsetkaSedmice: moment(
       this.props.jedanUnosState.datumZavrsetkaSedmice
-    ).format("YYYY-MM-DD")
+    ).format("YYYY-MM-DD"),
+    poslovnaJedinica: this.props.jedanUnosState.poslovnaJedinica
   };
   handleChangeInput = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -34,7 +36,10 @@ class index extends Component {
     this.props.sacuvajPodatke({
       ...this.state,
       capex: praviCapex[0]._id,
-      poslovnaJedinica: this.props.user.mjesto
+      poslovnaJedinica:
+        this.props.user.mjesto === "Sarajevo"
+          ? this.state.poslovnaJedinica
+          : this.props.user.mjesto
     });
     this.props.history.push("/racuni");
   };
@@ -85,6 +90,33 @@ class index extends Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
+            {this.state.poslovnaJedinica && (
+              <FormControl
+                style={{
+                  width: 200,
+                  marginLeft: 20,
+                  marginRight: 20,
+                  marginTop: 20
+                }}
+              >
+                <InputLabel htmlFor="jedinica">Poslovna Jedinica</InputLabel>
+                <Select
+                  name="poslovnaJedinica"
+                  value={this.state.poslovnaJedinica}
+                  onChange={this.handleChangeInput}
+                  inputProps={{
+                    jedinica: "age",
+                    id: "jedinica"
+                  }}
+                >
+                  {gradovi.map(grad => (
+                    <MenuItem key={grad} value={grad}>
+                      {grad}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
             {this.state.capex && (
               <FormControl
                 style={{

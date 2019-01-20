@@ -33,27 +33,27 @@ const Capex = new Schema(
     budzetSBK: {
       type: Number,
       required: true
+    },
+    Sarajevo: {
+      type: Boolean,
+      required: true
+    },
+    Zenica: {
+      type: Boolean,
+      required: true
+    },
+    Mostar: {
+      type: Boolean,
+      required: true
+    },
+    Tuzla: {
+      type: Boolean,
+      required: true
+    },
+    SBK: {
+      type: Boolean,
+      required: true
     }
-    // Sarajevo: {
-    //   type: Boolean,
-    //   required: true
-    // },
-    // Zenica: {
-    //   type: Boolean,
-    //   required: true
-    // },
-    // Mostar: {
-    //   type: Boolean,
-    //   required: true
-    // },
-    // Tuzla: {
-    //   type: Boolean,
-    //   required: true
-    // },
-    // SBK: {
-    //   type: Boolean,
-    //   required: true
-    // }
   },
   { timestamps: true }
 );
