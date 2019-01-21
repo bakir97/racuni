@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-
+import "./stil.css";
 import { connect } from "react-redux";
 const styles = theme => ({
   root: {
@@ -62,16 +62,25 @@ class test extends Component {
           filename={this.props.grad}
           sheet="tablexls"
           buttonText="Download as XLS"
+          style={{ backgroundColor: "red" }}
         />
         <Paper className={classes.root}>
           <Table id="table-to-xls" className={classes.table}>
             <TableHead>
-              <TableRow>
-                <TableCell>Capex</TableCell>
+              <TableRow style={{ backgroundColor: "#4c74b9" }}>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Capex
+                </TableCell>
 
-                <TableCell>Potrosnja</TableCell>
-                <TableCell>Odobreni Budzet</TableCell>
-                <TableCell>Razlika</TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Potrosnja
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Odobreni Budzet
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Razlika
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -159,62 +168,99 @@ class test extends Component {
                 console.log(this.props.doBrojMjesec, "kraj");
 
                 return (
-                  <TableRow key={row._id}>
-                    <TableCell component="th" scope="row">
+                  <TableRow key={row._id} style={{ fontWeight: "bold" }}>
+                    <TableCell
+                      style={{ fontWeight: "bold" }}
+                      component="th"
+                      scope="row"
+                    >
                       {row.capexSifra}
                     </TableCell>
 
-                    <TableCell>
-                      {potrosnja.toLocaleString("bs", {
-                        maximumFractionDigits: 2,
-                        minumumFractionDigits: 2
-                      })}{" "}
+                    <TableCell style={{ fontWeight: "bold" }}>
+                      {potrosnja
+                        .toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })
+                        .replace(/[,]/g, ".")
+                        .replace(/[.]/g, ",")}{" "}
                       KM
                     </TableCell>
-                    <TableCell>
-                      {zbirBudzetaMjeseci.toLocaleString("bs", {
-                        maximumFractionDigits: 2,
-                        minumumFractionDigits: 2
-                      })}{" "}
+                    <TableCell style={{ fontWeight: "bold" }}>
+                      {zbirBudzetaMjeseci
+                        .toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })
+                        .replace(/[,]/g, ".")
+                        .replace(/[.]/g, ",")}{" "}
                       KM
                     </TableCell>
-                    <TableCell>
-                      {(zbirBudzetaMjeseci - potrosnja).toLocaleString("bs", {
-                        maximumFractionDigits: 2,
-                        minumumFractionDigits: 2
-                      })}{" "}
+                    <TableCell
+                      style={{
+                        fontWeight: "bold",
+                        color:
+                          zbirBudzetaMjeseci - potrosnja < 0 ? "red" : "black"
+                      }}
+                    >
+                      {(zbirBudzetaMjeseci - potrosnja)
+                        .toLocaleString("bs", {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        })
+                        .replace(/[,]/g, ".")
+                        .replace(/[.]/g, ",")}{" "}
                       KM
                     </TableCell>
                   </TableRow>
                 );
               })}
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Svi Capexi
+              <TableRow style={{ backgroundColor: "#4c74b9" }}>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  style={{ fontWeight: "bold", color: "white" }}
+                >
+                  UKUPNO
                 </TableCell>
 
-                <TableCell>
-                  {ukupnaPotrosnjaSvi.toLocaleString("bs", {
-                    maximumFractionDigits: 2,
-                    minumumFractionDigits: 2
-                  })}{" "}
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  {ukupnaPotrosnjaSvi
+                    .toLocaleString("bs", {
+                      maximumFractionDigits: 2,
+                      minumumFractionDigits: 2
+                    })
+                    .replace(/[,]/g, ".")
+                    .replace(/[.]/g, ",")}{" "}
                   KM
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   {SviOdobreniBudzeti.toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
-                  })}{" "}
+                  })
+                    .replace(/[,]/g, ".")
+                    .replace(/[.]/g, ",")}{" "}
                   KM
                 </TableCell>
-                <TableCell>
-                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
-                    "bs",
-                    {
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white",
+                    color:
+                      SviOdobreniBudzeti - ukupnaPotrosnjaSvi < 0
+                        ? "red"
+                        : "white"
+                  }}
+                >
+                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi)
+                    .toLocaleString("bs", {
                       maximumFractionDigits: 2,
                       minumumFractionDigits: 2
-                    }
-                  )}{" "}
+                    })
+                    .replace(/[,]/g, ".")
+                    .replace(/[.]/g, ",")}{" "}
                   KM
                 </TableCell>
               </TableRow>

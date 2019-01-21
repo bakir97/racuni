@@ -32,15 +32,76 @@ function SimpleTable(props) {
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
-            <TableCell>CAPEX</TableCell>
-            <TableCell align="right">Od</TableCell>
-            <TableCell align="right">Do</TableCell>
-            <TableCell align="right">Potrosnja</TableCell>
-            <TableCell align="right">Username</TableCell>
-            <TableCell align="right">Poslovna jedinica</TableCell>
-            <TableCell align="right">Datum objave</TableCell>
-            <TableCell align="right" />
+          <TableRow style={{ backgroundColor: "#4c74b9" }}>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+            >
+              CAPEX
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            >
+              Od
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            >
+              Do
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            >
+              Potrosnja
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            >
+              Username
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            >
+              Poslovna jedinica
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            >
+              Datum objave
+            </TableCell>
+            <TableCell
+              style={{
+                fontWeight: "bold",
+                color: "white"
+              }}
+              align="right"
+            />
           </TableRow>
         </TableHead>
         <TableBody>

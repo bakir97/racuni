@@ -83,16 +83,79 @@ class test extends Component {
         <Paper className={classes.root}>
           <Table id="table-to-xls" className={classes.table}>
             <TableHead>
-              <TableRow>
-                <TableCell>Capex</TableCell>
-                <TableCell>Sarajevo</TableCell>
-                <TableCell>Zenica</TableCell>
-                <TableCell>Mostar</TableCell>
-                <TableCell>Tuzla</TableCell>
-                <TableCell>SBK</TableCell>
-                <TableCell>Ukupni trosak </TableCell>
-                <TableCell>Odobreni Budzet</TableCell>
-                <TableCell>Razlika</TableCell>
+              <TableRow style={{ backgroundColor: "#4c74b9" }}>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Capex
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Sarajevo
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Zenica
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Mostar
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Tuzla
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  SBK
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Ukupni trosak{" "}
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Odobreni Budzet
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                >
+                  Razlika
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -259,45 +322,75 @@ class test extends Component {
                 return (
                   samoJedan[i] && (
                     <TableRow key={row._id}>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                        component="th"
+                        scope="row"
+                      >
                         {samoJedan[i].capexSifra}
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {potrosnjaSarajevo.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
                         KM
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {potrosnjaZenica.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
                         KM
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {potrosnjaMostar.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
                         KM
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {potrosnjaTuzla.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
                         KM
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {potrosnjaSBK.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
                         KM
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {ZbirSvih.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
@@ -305,14 +398,24 @@ class test extends Component {
                         KM
                       </TableCell>
 
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold"
+                        }}
+                      >
                         {odobreniBudzetZbir.toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
                         KM
                       </TableCell>
-                      <TableCell>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold",
+                          color:
+                            odobreniBudzetZbir - ZbirSvih < 0 ? "red" : "black"
+                        }}
+                      >
                         {(odobreniBudzetZbir - ZbirSvih).toLocaleString("bs", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
@@ -323,60 +426,127 @@ class test extends Component {
                   )
                 );
               })}
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Svi Capexi
+              <TableRow style={{ backgroundColor: "#4c74b9" }}>
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
+                  UKUPNO
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {this.sumaPotrosnjih("Sarajevo").toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {this.sumaPotrosnjih("Zenica").toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {this.sumaPotrosnjih("Mostar").toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {this.sumaPotrosnjih("Tuzla").toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {this.sumaPotrosnjih("SBK").toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {ukupnaPotrosnjaSvi.toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  style={{
+                    fontWeight: "bold",
+                    color: "white"
+                  }}
+                  component="th"
+                  scope="row"
+                >
                   {SviOdobreniBudzeti.toLocaleString("bs", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  style={{
+                    fontWeight: "bold",
+                    color: "white",
+                    color:
+                      SviOdobreniBudzeti - ukupnaPotrosnjaSvi < 0
+                        ? "red"
+                        : "white"
+                  }}
+                >
                   {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
                     "bs",
                     {
@@ -386,17 +556,6 @@ class test extends Component {
                   )}{" "}
                   KM
                 </TableCell>
-                {/* <TableCell>{potrosnjaSarajevo.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaZenica.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaMostar.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaTuzla.toFixed(2)} KM</TableCell>
-                      <TableCell>{potrosnjaSBK.toFixed(2)} KM</TableCell>
-                      <TableCell>{ZbirSvih.toFixed(2)} KM</TableCell> */}
-                {/* 
-                      <TableCell>{odobreniBudzetZbir.toFixed(2)} KM</TableCell>
-                      <TableCell>
-                        {(odobreniBudzetZbir - ZbirSvih).toFixed(2)} KM
-                      </TableCell> */}
               </TableRow>
             </TableBody>
           </Table>

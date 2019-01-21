@@ -90,7 +90,7 @@ class index extends Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
-            {this.state.poslovnaJedinica && (
+            {this.props.user.mjesto === "Sarajevo" && (
               <FormControl
                 style={{
                   width: 200,

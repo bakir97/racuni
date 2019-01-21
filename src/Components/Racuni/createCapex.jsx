@@ -54,7 +54,7 @@ class index extends Component {
           alignItems="center"
           style={{ height: "100vh" }}
         >
-          <Grid container direction="column">
+          <Grid container direction="column" alignItems="center">
             <TextField
               label="Početak capexa"
               type="date"
@@ -63,7 +63,7 @@ class index extends Component {
               variant="outlined"
               value={this.state.datumPocetkaCapexa}
               onChange={e => this.handleChangeInput(e)}
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 10, width: 200 }}
             />
             <TextField
               label="Kraj capexa"
@@ -73,7 +73,7 @@ class index extends Component {
               variant="outlined"
               value={this.state.datumZavrsetkaCapexa}
               onChange={e => this.handleChangeInput(e)}
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 10, width: 200 }}
             />
             <TextField
               label="Capex Sifra"
@@ -83,7 +83,7 @@ class index extends Component {
               variant="outlined"
               onChange={e => this.handleChangeInput(e)}
               value={this.state.capexSifra}
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 10, width: 200 }}
             />
             <Grid container style={{ width: "100%" }} justify="center">
               <TextField
@@ -233,7 +233,11 @@ class index extends Component {
           <Grid>
             <Button
               variant="contained"
-              style={{ backgroundColor: "#6aff3d" }}
+              style={{
+                backgroundColor: "#6aff3d",
+                color: "white",
+                marginTop: 10
+              }}
               type="submit"
             >
               Sačuvaj

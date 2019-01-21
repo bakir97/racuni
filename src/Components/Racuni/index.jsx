@@ -183,10 +183,12 @@ class ScrollableTabsButtonAuto extends React.Component {
             textColor="primary"
           >
             <Tab
+              style={{ fontWeight: "bold" }}
               label="Sarajevo"
               disabled={user.mjesto === "Sarajevo" ? false : true}
             />
             <Tab
+              style={{ fontWeight: "bold" }}
               label="Zenica"
               disabled={
                 user.mjesto === "Sarajevo" || user.mjesto === "Zenica"
@@ -195,6 +197,7 @@ class ScrollableTabsButtonAuto extends React.Component {
               }
             />
             <Tab
+              style={{ fontWeight: "bold" }}
               label="Mostar"
               disabled={
                 user.mjesto === "Sarajevo" || user.mjesto === "Mostar"
@@ -203,6 +206,7 @@ class ScrollableTabsButtonAuto extends React.Component {
               }
             />
             <Tab
+              style={{ fontWeight: "bold" }}
               label="Tuzla"
               disabled={
                 user.mjesto === "Sarajevo" || user.mjesto === "Tuzla"
@@ -211,6 +215,7 @@ class ScrollableTabsButtonAuto extends React.Component {
               }
             />
             <Tab
+              style={{ fontWeight: "bold" }}
               label="SBK"
               disabled={
                 user.mjesto === "Sarajevo" || user.mjesto === "SBK"
@@ -219,10 +224,11 @@ class ScrollableTabsButtonAuto extends React.Component {
               }
             />
             <Tab
+              style={{ fontWeight: "bold" }}
               label="Total"
               disabled={user.mjesto === "Sarajevo" ? false : true}
             />
-            <Tab label="Svi Unosi" />
+            <Tab style={{ fontWeight: "bold" }} label="Svi Unosi" />
             <Button
               style={{ marginLeft: "auto", marginRight: 20 }}
               onClick={this.logout}
@@ -293,9 +299,13 @@ class ScrollableTabsButtonAuto extends React.Component {
                 gradovi.findIndex(grad => grad === this.props.user.mjesto) &&
                 !this.props.user.direktor && (
                   <Button
-                    style={{ marginLeft: "auto", marginTop: 20 }}
+                    style={{
+                      marginLeft: "auto",
+                      marginTop: 20,
+                      backgroundColor: "green",
+                      color: "white"
+                    }}
                     variant="contained"
-                    color="primary"
                     onClick={() => this.props.history.push("/createUnos")}
                   >
                     Novi unos
@@ -312,12 +322,13 @@ class ScrollableTabsButtonAuto extends React.Component {
             >
               {this.state.prikaziCapexFilter
                 ? "Zatvori filter"
-                : "Prikazi filter za capexe"}
+                : "Filter za capex"}
             </Button>
             {this.state.prikaziCapexFilter && (
               <div
                 style={{
                   height: 100,
+                  width: 200,
                   overflow: "auto",
                   display: "flex",
                   flexDirection: "column"

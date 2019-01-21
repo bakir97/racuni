@@ -97,31 +97,33 @@ class index extends Component {
               onChange={e => this.handleChangeInput(e)}
               style={{ marginRight: 10 }}
             />
-            <FormControl
-              style={{
-                width: 200,
-                marginLeft: 20,
-                marginRight: 20,
-                marginTop: 20
-              }}
-            >
-              <InputLabel htmlFor="jedinica">Poslovna Jedinica</InputLabel>
-              <Select
-                name="poslovnaJedinica"
-                value={this.state.poslovnaJedinica}
-                onChange={this.handleChangeInput}
-                inputProps={{
-                  jedinica: "age",
-                  id: "jedinica"
+            {this.props.user.mjesto === "Sarajevo" && (
+              <FormControl
+                style={{
+                  width: 200,
+                  marginLeft: 20,
+                  marginRight: 20,
+                  marginTop: 20
                 }}
               >
-                {gradovi.map(grad => (
-                  <MenuItem key={grad} value={grad}>
-                    {grad}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <InputLabel htmlFor="jedinica">Poslovna Jedinica</InputLabel>
+                <Select
+                  name="poslovnaJedinica"
+                  value={this.state.poslovnaJedinica}
+                  onChange={this.handleChangeInput}
+                  inputProps={{
+                    jedinica: "age",
+                    id: "jedinica"
+                  }}
+                >
+                  {gradovi.map(grad => (
+                    <MenuItem key={grad} value={grad}>
+                      {grad}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
             {samoJedanNull && (
               <FormControl
                 style={{
