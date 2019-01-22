@@ -20,7 +20,7 @@ class App extends Component {
         )}
 
         <Route path="/editUnos" component={EditUnose} />
-        <Route path="/racuni" component={Racuni} />
+        <Route path="/budzet" component={Racuni} />
         <Route exact path="/" render={props => <Login {...props} />} />
       </Switch>
     ) : (

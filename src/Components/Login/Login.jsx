@@ -6,13 +6,13 @@ export default class index extends Component {
     console.log(this.props);
 
     if (this.props.user.isAuth) {
-      this.props.history.push("racuni");
+      this.props.history.push("budzet");
     }
   }
   componentDidUpdate(prevProps) {
     if (!prevProps.user.isAuth && this.props.user.isAuth) {
       this.props.errorLogin({});
-      this.props.history.replace("racuni");
+      this.props.history.replace("budzet");
     }
   }
 

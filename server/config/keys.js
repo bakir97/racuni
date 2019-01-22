@@ -1,4 +1,4 @@
 module.exports = {
-  mongoDB: "mongodb://bakir:bakir1@ds119220.mlab.com:19220/posao",
+  mongoDB: "mongodb://muhamed.papic:Mp112255@ds163694.mlab.com:63694/budzet",
   jwtKey: "ChatAppJwt"
 };
