@@ -178,23 +178,17 @@ class test extends Component {
                     </TableCell>
 
                     <TableCell style={{ fontWeight: "bold" }}>
-                      {potrosnja
-                        .toLocaleString("bs", {
-                          maximumFractionDigits: 2,
-                          minumumFractionDigits: 2
-                        })
-                        .replace(/[,]/g, ".")
-                        .replace(/[.]/g, ",")}{" "}
+                      {potrosnja.toLocaleString("de-DE", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
                       KM
                     </TableCell>
                     <TableCell style={{ fontWeight: "bold" }}>
-                      {zbirBudzetaMjeseci
-                        .toLocaleString("bs", {
-                          maximumFractionDigits: 2,
-                          minumumFractionDigits: 2
-                        })
-                        .replace(/[,]/g, ".")
-                        .replace(/[.]/g, ",")}{" "}
+                      {zbirBudzetaMjeseci.toLocaleString("de-DE", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
                       KM
                     </TableCell>
                     <TableCell
@@ -204,13 +198,13 @@ class test extends Component {
                           zbirBudzetaMjeseci - potrosnja < 0 ? "red" : "black"
                       }}
                     >
-                      {(zbirBudzetaMjeseci - potrosnja)
-                        .toLocaleString("bs", {
+                      {(zbirBudzetaMjeseci - potrosnja).toLocaleString(
+                        "de-DE",
+                        {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
-                        })
-                        .replace(/[,]/g, ".")
-                        .replace(/[.]/g, ",")}{" "}
+                        }
+                      )}{" "}
                       KM
                     </TableCell>
                   </TableRow>
@@ -226,22 +220,17 @@ class test extends Component {
                 </TableCell>
 
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  {ukupnaPotrosnjaSvi
-                    .toLocaleString("bs", {
-                      maximumFractionDigits: 2,
-                      minumumFractionDigits: 2
-                    })
-                    .replace(/[,]/g, ".")
-                    .replace(/[.]/g, ",")}{" "}
+                  {ukupnaPotrosnjaSvi.toLocaleString("de-DE", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
                   KM
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  {SviOdobreniBudzeti.toLocaleString("bs", {
+                  {SviOdobreniBudzeti.toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
-                  })
-                    .replace(/[,]/g, ".")
-                    .replace(/[.]/g, ",")}{" "}
+                  })}{" "}
                   KM
                 </TableCell>
                 <TableCell
@@ -254,13 +243,13 @@ class test extends Component {
                         : "white"
                   }}
                 >
-                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi)
-                    .toLocaleString("bs", {
+                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
+                    "de-DE",
+                    {
                       maximumFractionDigits: 2,
                       minumumFractionDigits: 2
-                    })
-                    .replace(/[,]/g, ".")
-                    .replace(/[.]/g, ",")}{" "}
+                    }
+                  )}{" "}
                   KM
                 </TableCell>
               </TableRow>

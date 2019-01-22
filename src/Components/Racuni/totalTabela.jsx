@@ -336,7 +336,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {potrosnjaSarajevo.toLocaleString("bs", {
+                        {potrosnjaSarajevo.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -347,7 +347,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {potrosnjaZenica.toLocaleString("bs", {
+                        {potrosnjaZenica.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -358,7 +358,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {potrosnjaMostar.toLocaleString("bs", {
+                        {potrosnjaMostar.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -369,7 +369,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {potrosnjaTuzla.toLocaleString("bs", {
+                        {potrosnjaTuzla.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -380,7 +380,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {potrosnjaSBK.toLocaleString("bs", {
+                        {potrosnjaSBK.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -391,7 +391,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {ZbirSvih.toLocaleString("bs", {
+                        {ZbirSvih.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -403,7 +403,7 @@ class test extends Component {
                           fontWeight: "bold"
                         }}
                       >
-                        {odobreniBudzetZbir.toLocaleString("bs", {
+                        {odobreniBudzetZbir.toLocaleString("de-DE", {
                           maximumFractionDigits: 2,
                           minumumFractionDigits: 2
                         })}{" "}
@@ -416,10 +416,13 @@ class test extends Component {
                             odobreniBudzetZbir - ZbirSvih < 0 ? "red" : "black"
                         }}
                       >
-                        {(odobreniBudzetZbir - ZbirSvih).toLocaleString("bs", {
-                          maximumFractionDigits: 2,
-                          minumumFractionDigits: 2
-                        })}{" "}
+                        {(odobreniBudzetZbir - ZbirSvih).toLocaleString(
+                          "de-DE",
+                          {
+                            maximumFractionDigits: 2,
+                            minumumFractionDigits: 2
+                          }
+                        )}{" "}
                         KM
                       </TableCell>
                     </TableRow>
@@ -445,7 +448,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {this.sumaPotrosnjih("Sarajevo").toLocaleString("bs", {
+                  {this.sumaPotrosnjih("Sarajevo").toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -459,7 +462,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {this.sumaPotrosnjih("Zenica").toLocaleString("bs", {
+                  {this.sumaPotrosnjih("Zenica").toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -473,7 +476,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {this.sumaPotrosnjih("Mostar").toLocaleString("bs", {
+                  {this.sumaPotrosnjih("Mostar").toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -487,7 +490,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {this.sumaPotrosnjih("Tuzla").toLocaleString("bs", {
+                  {this.sumaPotrosnjih("Tuzla").toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -501,7 +504,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {this.sumaPotrosnjih("SBK").toLocaleString("bs", {
+                  {this.sumaPotrosnjih("SBK").toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -515,7 +518,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {ukupnaPotrosnjaSvi.toLocaleString("bs", {
+                  {ukupnaPotrosnjaSvi.toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -529,7 +532,7 @@ class test extends Component {
                   component="th"
                   scope="row"
                 >
-                  {SviOdobreniBudzeti.toLocaleString("bs", {
+                  {SviOdobreniBudzeti.toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -548,7 +551,7 @@ class test extends Component {
                   }}
                 >
                   {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
-                    "bs",
+                    "de-DE",
                     {
                       maximumFractionDigits: 2,
                       minumumFractionDigits: 2

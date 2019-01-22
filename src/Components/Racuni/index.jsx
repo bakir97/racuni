@@ -301,7 +301,8 @@ class ScrollableTabsButtonAuto extends React.Component {
                   <Button
                     style={{
                       marginLeft: "auto",
-                      marginTop: 20,
+                      marginTop: 10,
+                      marginRight: 10,
                       backgroundColor: "green",
                       color: "white"
                     }}

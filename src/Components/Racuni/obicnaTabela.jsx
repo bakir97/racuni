@@ -132,7 +132,8 @@ function SimpleTable(props) {
 
                 <TableCell align="right">
                   {(mjesto === row.poslovnaJedinica ||
-                    props.user.adminAplikacije) &&
+                    props.user.adminAplikacije ||
+                    row.username === props.user.username) &&
                     !props.user.direktor && (
                       <Button
                         variant="contained"
