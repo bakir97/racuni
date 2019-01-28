@@ -7,6 +7,8 @@ import reduxConfig from "./Redux/reduxConfig";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { loginUser } from "./Redux/actions/LoginAction";
+import axios from "axios";
+axios.get("https://budzet2019.herokuapp.com/");
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 const store = reduxConfig();
 const user = localStorage.getItem("user");
