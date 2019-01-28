@@ -10,6 +10,7 @@ mongoose.connect(keys.mongoDB).then(() => {
 });
 //Models
 require("./Models/Korisnik");
+require("./Models/GlavniCapexi");
 require("./Models/Capex");
 require("./Models/Unosi");
 //Passport
@@ -24,7 +25,9 @@ app.use(bodyParser.json());
 const Unosi = require("./Routes/Unosi");
 app.use("/Unosi", Unosi);
 const Capex = require("./Routes/Capex");
-app.use("/Capex", Capex);
+app.use("/GlavniCapex", Capex);
+const GlavniCapex = require("./Routes/Capex");
+app.use("/GlavniCapex", GlavniCapex);
 const signUp = require("./Routes/SignUp");
 app.use("/signUp", signUp);
 const LogIn = require("./Routes/LogIn");
