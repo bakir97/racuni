@@ -8,15 +8,20 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import {
-  storeCapex,
+  storeGlavniCapex,
   jedanUnos,
-  getAllCapex
+  getAllGlavniCapex
 } from "../../Redux/actions/UnosiActions";
 class index extends Component {
   state = {
     datumPocetkaCapexa: moment().format("YYYY-MM-DD"),
     datumZavrsetkaCapexa: moment().format("YYYY-MM-DD"),
     capexSifra: "",
+    budzetSarajevo: "",
+    budzetZenica: "",
+    budzetMostar: "",
+    budzetTuzla: "",
+    budzetSBK: "",
     Sarajevo: "",
     Zenica: "",
     Mostar: "",
@@ -24,12 +29,12 @@ class index extends Component {
     SBK: ""
   };
   componentDidMount() {
-    this.props.getAllCapex();
+    this.props.getAllGlavniCapex();
   }
 
   submit = e => {
     e.preventDefault();
-    this.props.storeCapex(this.state);
+    this.props.storeGlavniCapex(this.state);
     this.props.history.push("/budzet");
   };
 
@@ -80,6 +85,58 @@ class index extends Component {
               value={this.state.capexSifra}
               style={{ marginRight: 10, width: 200 }}
             />
+            <Grid container style={{ width: "100%" }} justify="center">
+              <TextField
+                label="Budzet Sarajevo"
+                type="number"
+                name="budzetSarajevo"
+                margin="normal"
+                variant="outlined"
+                onChange={e => this.handleChangeInput(e)}
+                value={this.state.budzetSarajevo}
+                style={{ marginRight: 10 }}
+              />
+              <TextField
+                label="Budzet Zenica"
+                type="number"
+                name="budzetZenica"
+                margin="normal"
+                variant="outlined"
+                onChange={e => this.handleChangeInput(e)}
+                value={this.state.budzetZenica}
+                style={{ marginRight: 10 }}
+              />
+              <TextField
+                label="Budzet Mostar"
+                type="number"
+                name="budzetMostar"
+                margin="normal"
+                variant="outlined"
+                onChange={e => this.handleChangeInput(e)}
+                value={this.state.budzetMostar}
+                style={{ marginRight: 10 }}
+              />
+              <TextField
+                label="Budzet Tuzla"
+                type="number"
+                name="budzetTuzla"
+                margin="normal"
+                variant="outlined"
+                onChange={e => this.handleChangeInput(e)}
+                value={this.state.budzetTuzla}
+                style={{ marginRight: 10 }}
+              />
+              <TextField
+                label="Budzet SBK"
+                type="number"
+                name="budzetSBK"
+                margin="normal"
+                variant="outlined"
+                onChange={e => this.handleChangeInput(e)}
+                value={this.state.budzetSBK}
+                style={{ marginRight: 10 }}
+              />
+            </Grid>
           </Grid>
           <Grid>
             <FormControl
@@ -197,7 +254,7 @@ const mapStateToProps = state => ({
   user: state.all.user
 });
 
-const mapDispatchToProps = { storeCapex, jedanUnos, getAllCapex };
+const mapDispatchToProps = { storeGlavniCapex, jedanUnos, getAllGlavniCapex };
 
 export default connect(
   mapStateToProps,

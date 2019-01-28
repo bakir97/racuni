@@ -7,7 +7,11 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Test from "./capexiTabela";
 import { connect } from "react-redux";
-import { getAllData, getAllCapex } from "../../Redux/actions/UnosiActions";
+import {
+  getAllData,
+  getAllCapex,
+  getAllGlavniCapex
+} from "../../Redux/actions/UnosiActions";
 import { jedanUnos, success } from "../../Redux/actions/UnosiActions";
 import { loginUser } from "../../Redux/actions/LoginAction";
 import { Grid, TextField, FormControlLabel, Checkbox } from "@material-ui/core";
@@ -44,11 +48,13 @@ class ScrollableTabsButtonAuto extends React.Component {
     od: null,
     do: null,
     capexi: [],
-    prikaziCapexFilter: false
+    prikaziCapexFilter: false,
+    glavniCapexi: []
   };
   componentDidMount() {
     this.props.getAllData();
     this.props.getAllCapex();
+    this.props.getAllGlavniCapex();
   }
 
   handleChange = (event, value) => {
@@ -76,7 +82,7 @@ class ScrollableTabsButtonAuto extends React.Component {
   };
   inputBoxovi = () => {
     let array = [];
-    const samoJedan = this.props.capexi
+    const samoJedan = this.props.glavniCapexi
       .map(jedan => {
         if (
           array.filter(capex => capex.capexSifra === jedan.capexSifra).length <=
@@ -97,7 +103,7 @@ class ScrollableTabsButtonAuto extends React.Component {
           <Checkbox
             name={capex.capexSifra}
             checked={
-              this.state.capexi.filter(
+              this.state.glavniCapexi.filter(
                 capexState => capexState.capexSifra === capex.capexSifra
               ).length > 0
             }
@@ -111,17 +117,17 @@ class ScrollableTabsButtonAuto extends React.Component {
   };
   changeCapexe = capex => {
     if (
-      this.state.capexi.filter(
+      this.state.glavniCapexi.filter(
         capexState => capexState.capexSifra === capex.capexSifra
       ).length > 0
     ) {
       return this.setState({
-        capexi: this.state.capexi.filter(
+        glavniCapexi: this.state.glavniCapexi.filter(
           capexState => capexState.capexSifra !== capex.capexSifra
         )
       });
     }
-    this.setState({ capexi: [...this.state.capexi, capex] });
+    this.setState({ glavniCapexi: [...this.state.glavniCapexi, capex] });
   };
   render() {
     const { classes, user } = this.props;
@@ -156,6 +162,7 @@ class ScrollableTabsButtonAuto extends React.Component {
       }
       return null;
     });
+    console.log("kurac", this.state.glavniCapexi);
 
     console.log(moment(this.state.od).month(), "test filter");
     console.log(isNaN(moment(this.state.od).month(), "testtss"));
@@ -237,6 +244,12 @@ class ScrollableTabsButtonAuto extends React.Component {
             </Button>
             {this.props.user.adminAplikacije && (
               <>
+                <Button
+                  style={{ marginRight: 20 }}
+                  onClick={() => this.props.history.push("/createGlavniCapex")}
+                >
+                  Novi Glavni Capex
+                </Button>
                 <Button
                   style={{ marginRight: 20 }}
                   onClick={() => this.props.history.push("/createCapex")}
@@ -342,8 +355,14 @@ class ScrollableTabsButtonAuto extends React.Component {
             )}
           </>
         )}
+
         {value === 0 && user.mjesto === "Sarajevo" && (
           <Test
+            sviGlavniCapexi={
+              this.state.glavniCapexi.length > 0
+                ? this.state.glavniCapexi
+                : this.props.glavniCapexi
+            }
             sviCapexi={this.props.capexi}
             odBrojMjesec={odBrojMjesec}
             doBrojMjesec={doBrojMjesec}
@@ -374,6 +393,11 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 1 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Zenica") && (
             <Test
+              sviGlavniCapexi={
+                this.state.glavniCapexi.length > 0
+                  ? this.state.glavniCapexi
+                  : this.props.glavniCapexi
+              }
               sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
               doBrojMjesec={doBrojMjesec}
@@ -406,6 +430,11 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 2 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Mostar") && (
             <Test
+              sviGlavniCapexi={
+                this.state.glavniCapexi.length > 0
+                  ? this.state.glavniCapexi
+                  : this.props.glavniCapexi
+              }
               sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
               doBrojMjesec={doBrojMjesec}
@@ -438,6 +467,11 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 3 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "Tuzla") && (
             <Test
+              sviGlavniCapexi={
+                this.state.glavniCapexi.length > 0
+                  ? this.state.glavniCapexi
+                  : this.props.glavniCapexi
+              }
               sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
               doBrojMjesec={doBrojMjesec}
@@ -469,6 +503,11 @@ class ScrollableTabsButtonAuto extends React.Component {
         {value === 4 &&
           (user.mjesto === "Sarajevo" || user.mjesto === "SBK") && (
             <Test
+              sviGlavniCapexi={
+                this.state.glavniCapexi.length > 0
+                  ? this.state.glavniCapexi
+                  : this.props.glavniCapexi
+              }
               odBrojMjesec={odBrojMjesec}
               doBrojMjesec={doBrojMjesec}
               sviCapexi={this.props.capexi}
@@ -500,6 +539,11 @@ class ScrollableTabsButtonAuto extends React.Component {
           )}
         {value === 5 && user.mjesto === "Sarajevo" && (
           <TotalTabela
+            sviGlavniCapexi={
+              this.state.glavniCapexi.length > 0
+                ? this.state.glavniCapexi
+                : this.props.glavniCapexi
+            }
             odBrojMjesec={odBrojMjesec}
             doBrojMjesec={doBrojMjesec}
             capexi={
@@ -653,7 +697,8 @@ const mapStateToProps = state => ({
   user: state.all.user,
   data: state.all.data,
   capexi: state.all.allCapexi,
-  sucessState: state.all.success
+  sucessState: state.all.success,
+  glavniCapexi: state.all.allGlavniCapexi
 });
 
 const mapDispatchToProps = {
@@ -661,7 +706,8 @@ const mapDispatchToProps = {
   jedanUnos,
   getAllCapex,
   success,
-  loginUser
+  loginUser,
+  getAllGlavniCapex
 };
 
 ScrollableTabsButtonAuto.propTypes = {

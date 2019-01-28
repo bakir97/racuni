@@ -28,31 +28,45 @@ class test extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const ukupnaPotrosnjaSvi = this.props.data.reduce(
-      (total, jednaPotrosnja) => {
+    const SviOdobreniBudzetiCapexa = this.props.sviGlavniCapexi.reduce(
+      (total, capex) => {
         if (
-          this.props.capexi.filter(jedanCapex =>
-            jedanCapex.capexSifra.includes(jednaPotrosnja.capex.capexSifra)
-          ).length > 0
+          moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
+          moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
         ) {
-          return total + jednaPotrosnja.potrosnja;
+          return total + capex[this.props.grad];
         }
         return total;
       },
       0
     );
-    console.log(this.props.capexi, "capexi sto mi trebaju");
-
-    const SviOdobreniBudzeti = this.props.capexi.reduce((total, capex) => {
-      if (
-        moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
-        moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
-      ) {
-        return total + capex[this.props.grad];
-      }
-      return total;
-    }, 0);
+    const ukupnaPotrosnjaSvihCapexa = this.props.data.reduce(
+      (total, jednaPotrosnja) => {
+        return total + jednaPotrosnja.potrosnja;
+      },
+      0
+    );
+    const { classes } = this.props;
+    let array = [];
+    const samoJedan = this.props.sviGlavniCapexi
+      .filter(
+        glavniCapex =>
+          moment(glavniCapex.datumPocetkaCapexa).month() >=
+            this.props.odBrojMjesec &&
+          moment(glavniCapex.datumZavrsetkaCapexa).month() <=
+            this.props.doBrojMjesec
+      )
+      .map(jedan => {
+        if (
+          array.filter(capex => capex.capexSifra === jedan.capexSifra).length <=
+          0
+        ) {
+          array = [...array, jedan];
+          return jedan;
+        }
+        return null;
+      })
+      .filter(jedan => jedan !== null);
     return (
       <>
         <ReactHTMLTableToExcel
@@ -64,11 +78,268 @@ class test extends Component {
           buttonText="Download as XLS"
           style={{ backgroundColor: "red" }}
         />
+        {samoJedan.map(glavniCapex => {
+          const ukupnaPotrosnjaSvi = this.props.data
+            .filter(
+              data =>
+                data.capex.capexSifra.split("-")[0] === glavniCapex.capexSifra
+            )
+            .reduce((total, jednaPotrosnja) => {
+              if (
+                this.props.capexi.filter(jedanCapex =>
+                  jedanCapex.capexSifra.includes(
+                    jednaPotrosnja.capex.capexSifra
+                  )
+                ).length > 0
+              ) {
+                return total + jednaPotrosnja.potrosnja;
+              }
+              return total;
+            }, 0);
+          console.log(this.props.capexi, "capexi sto mi trebaju");
+          const SviOdobreniBudzeti = this.props.sviGlavniCapexi.reduce(
+            (total, capex) => {
+              if (
+                moment(capex.datumPocetkaCapexa).month() >=
+                  this.props.odBrojMjesec &&
+                moment(capex.datumZavrsetkaCapexa).month() <=
+                  this.props.doBrojMjesec &&
+                capex.capexSifra.split("-")[0] === glavniCapex.capexSifra
+              ) {
+                return total + capex[this.props.grad];
+              }
+              return total;
+            },
+            0
+          );
+          // const SviOdobreniBudzeti = this.props.sviCapexi.reduce((total, capex) => {
+          //   if (
+          //     moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
+          //     moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
+          //   ) {
+          //     return total + capex[this.props.grad];
+          //   }
+          //   return total;
+          // }, 0);
+          return (
+            <Paper className={classes.root}>
+              <Table id="table-to-xls" className={classes.table}>
+                <TableHead>
+                  <TableRow style={{ backgroundColor: "#4c74b9" }}>
+                    <TableCell
+                      style={{ fontWeight: "bold", color: "white", width: 400 }}
+                    >
+                      Capex
+                    </TableCell>
+
+                    <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      Potrosnja
+                    </TableCell>
+                    <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      Odobreni Budzet
+                    </TableCell>
+                    <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      Razlika
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.props.capexi
+                    .filter(
+                      capex =>
+                        capex.capexSifra.split("-")[0] ===
+                        glavniCapex.capexSifra
+                    )
+                    .map((row, i) => {
+                      const findIndex = this.state.datumi.findIndex(
+                        datum => datum.capex === row.capexSifra
+                      );
+                      const troskovi_datumi = this.props.data.filter(
+                        jedanObjekat =>
+                          row.capexSifra === jedanObjekat.capex.capexSifra
+                      );
+                      const datumiPravi = troskovi_datumi.map(sve => ({
+                        ...sve,
+                        datumPocetkaSedmice: moment(
+                          sve.datumPocetkaSedmice
+                        ).valueOf(),
+                        datumZavrsetkaSedmice: moment(
+                          sve.datumZavrsetkaSedmice
+                        ).valueOf()
+                      }));
+                      let odDatumState = 0;
+                      let doDatumState = 9999999999999999999999999999;
+                      if (
+                        this.state.datumi[findIndex] &&
+                        this.state.datumi[findIndex].od
+                      ) {
+                        odDatumState = moment(
+                          this.state.datumi[findIndex].od
+                        ).valueOf();
+                      }
+                      if (
+                        this.state.datumi[findIndex] &&
+                        this.state.datumi[findIndex].do
+                      ) {
+                        doDatumState = moment(
+                          this.state.datumi[findIndex].do
+                        ).valueOf();
+                      }
+                      console.log(odDatumState, "test");
+                      const najmanjiDatum = datumiPravi.map(
+                        datumiSvi => datumiSvi.datumPocetkaSedmice
+                      );
+                      const najmanji = Math.min(...najmanjiDatum);
+                      const najveciDatumi = datumiPravi.map(
+                        datumiSvi => datumiSvi.datumZavrsetkaSedmice
+                      );
+                      const najveci = Math.max(...najveciDatumi);
+
+                      const potrosnja = datumiPravi.reduce((total, trosak) => {
+                        console.log(trosak.datumPocetkaSedmice, "datuk kraja");
+
+                        if (
+                          trosak.datumPocetkaSedmice >= odDatumState &&
+                          trosak.datumZavrsetkaSedmice <= doDatumState
+                        ) {
+                          return total + trosak.potrosnja;
+                        }
+                        return total;
+                      }, 0);
+                      console.log(
+                        moment(odDatumState).month(),
+                        "sto uporedujemo"
+                      );
+
+                      console.log(troskovi_datumi, "troskovi");
+                      console.log(datumiPravi, "datumiPravi");
+                      console.log(najmanji, "najmanjiDatum");
+                      console.log(najveci, "najveci");
+                      const proba = this.props.sviCapexi.filter(
+                        capex => capex.capexSifra === row.capexSifra
+                      );
+                      console.log(proba, "proba");
+
+                      const zbirBudzetaMjeseci = proba.reduce(
+                        (total, capex) => {
+                          if (
+                            moment(capex.datumPocetkaCapexa).month() >=
+                              this.props.odBrojMjesec &&
+                            moment(capex.datumZavrsetkaCapexa).month() <=
+                              this.props.doBrojMjesec
+                          ) {
+                            console.log("jednakaaaa", row[this.props.grad]);
+
+                            return total + capex[this.props.grad];
+                          }
+                          return total;
+                        },
+                        0
+                      );
+                      console.log(this.props.odBrojMjesec, "pocetak");
+                      console.log(this.props.doBrojMjesec, "kraj");
+
+                      return (
+                        <TableRow key={row._id} style={{ fontWeight: "bold" }}>
+                          <TableCell
+                            style={{ fontWeight: "bold" }}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.capexSifra}
+                          </TableCell>
+
+                          <TableCell style={{ fontWeight: "bold" }}>
+                            {potrosnja.toLocaleString("de-DE", {
+                              maximumFractionDigits: 2,
+                              minumumFractionDigits: 2
+                            })}{" "}
+                            KM
+                          </TableCell>
+                          <TableCell style={{ fontWeight: "bold" }}>
+                            {/* {zbirBudzetaMjeseci.toLocaleString("de-DE", {
+                              maximumFractionDigits: 2,
+                              minumumFractionDigits: 2
+                            })}{" "}
+                            KM */}
+                          </TableCell>
+                          <TableCell
+                            style={{
+                              fontWeight: "bold",
+                              color:
+                                zbirBudzetaMjeseci - potrosnja < 0
+                                  ? "red"
+                                  : "black"
+                            }}
+                          >
+                            {/* {(zbirBudzetaMjeseci - potrosnja).toLocaleString(
+                              "de-DE",
+                              {
+                                maximumFractionDigits: 2,
+                                minumumFractionDigits: 2
+                              }
+                            )}{" "}
+                            KM */}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+
+                  <TableRow style={{ backgroundColor: "#4c74b9" }}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      style={{ fontWeight: "bold", color: "white" }}
+                    >
+                      {glavniCapex.capexSifra}
+                    </TableCell>
+
+                    <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      {ukupnaPotrosnjaSvi.toLocaleString("de-DE", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
+                      KM
+                    </TableCell>
+                    <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      {SviOdobreniBudzeti.toLocaleString("de-DE", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
+                      KM
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontWeight: "bold",
+                        color: "white",
+                        color:
+                          SviOdobreniBudzeti - ukupnaPotrosnjaSvi < 0
+                            ? "red"
+                            : "white"
+                      }}
+                    >
+                      {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
+                        "de-DE",
+                        {
+                          maximumFractionDigits: 2,
+                          minumumFractionDigits: 2
+                        }
+                      )}{" "}
+                      KM
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Paper>
+          );
+        })}
         <Paper className={classes.root}>
           <Table id="table-to-xls" className={classes.table}>
             <TableHead>
               <TableRow style={{ backgroundColor: "#4c74b9" }}>
-                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                <TableCell
+                  style={{ fontWeight: "bold", color: "white", width: 400 }}
+                >
                   Capex
                 </TableCell>
 
@@ -84,150 +355,20 @@ class test extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.capexi.map((row, i) => {
-                const findIndex = this.state.datumi.findIndex(
-                  datum => datum.capex === row.capexSifra
-                );
-                const troskovi_datumi = this.props.data.filter(
-                  jedanObjekat =>
-                    row.capexSifra === jedanObjekat.capex.capexSifra
-                );
-                const datumiPravi = troskovi_datumi.map(sve => ({
-                  ...sve,
-                  datumPocetkaSedmice: moment(
-                    sve.datumPocetkaSedmice
-                  ).valueOf(),
-                  datumZavrsetkaSedmice: moment(
-                    sve.datumZavrsetkaSedmice
-                  ).valueOf()
-                }));
-                let odDatumState = 0;
-                let doDatumState = 9999999999999999999999999999;
-                if (
-                  this.state.datumi[findIndex] &&
-                  this.state.datumi[findIndex].od
-                ) {
-                  odDatumState = moment(
-                    this.state.datumi[findIndex].od
-                  ).valueOf();
-                }
-                if (
-                  this.state.datumi[findIndex] &&
-                  this.state.datumi[findIndex].do
-                ) {
-                  doDatumState = moment(
-                    this.state.datumi[findIndex].do
-                  ).valueOf();
-                }
-                console.log(odDatumState, "test");
-                const najmanjiDatum = datumiPravi.map(
-                  datumiSvi => datumiSvi.datumPocetkaSedmice
-                );
-                const najmanji = Math.min(...najmanjiDatum);
-                const najveciDatumi = datumiPravi.map(
-                  datumiSvi => datumiSvi.datumZavrsetkaSedmice
-                );
-                const najveci = Math.max(...najveciDatumi);
-
-                const potrosnja = datumiPravi.reduce((total, trosak) => {
-                  console.log(trosak.datumPocetkaSedmice, "datuk kraja");
-
-                  if (
-                    trosak.datumPocetkaSedmice >= odDatumState &&
-                    trosak.datumZavrsetkaSedmice <= doDatumState
-                  ) {
-                    return total + trosak.potrosnja;
-                  }
-                  return total;
-                }, 0);
-                console.log(moment(odDatumState).month(), "sto uporedujemo");
-
-                console.log(troskovi_datumi, "troskovi");
-                console.log(datumiPravi, "datumiPravi");
-                console.log(najmanji, "najmanjiDatum");
-                console.log(najveci, "najveci");
-                const proba = this.props.sviCapexi.filter(
-                  capex => capex.capexSifra === row.capexSifra
-                );
-                console.log(proba, "proba");
-
-                const zbirBudzetaMjeseci = proba.reduce((total, capex) => {
-                  if (
-                    moment(capex.datumPocetkaCapexa).month() >=
-                      this.props.odBrojMjesec &&
-                    moment(capex.datumZavrsetkaCapexa).month() <=
-                      this.props.doBrojMjesec
-                  ) {
-                    console.log("jednakaaaa", row[this.props.grad]);
-
-                    return total + capex[this.props.grad];
-                  }
-                  return total;
-                }, 0);
-                console.log(this.props.odBrojMjesec, "pocetak");
-                console.log(this.props.doBrojMjesec, "kraj");
-
-                return (
-                  <TableRow key={row._id} style={{ fontWeight: "bold" }}>
-                    <TableCell
-                      style={{ fontWeight: "bold" }}
-                      component="th"
-                      scope="row"
-                    >
-                      {row.capexSifra}
-                    </TableCell>
-
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      {potrosnja.toLocaleString("de-DE", {
-                        maximumFractionDigits: 2,
-                        minumumFractionDigits: 2
-                      })}{" "}
-                      KM
-                    </TableCell>
-                    <TableCell style={{ fontWeight: "bold" }}>
-                      {zbirBudzetaMjeseci.toLocaleString("de-DE", {
-                        maximumFractionDigits: 2,
-                        minumumFractionDigits: 2
-                      })}{" "}
-                      KM
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        fontWeight: "bold",
-                        color:
-                          zbirBudzetaMjeseci - potrosnja < 0 ? "red" : "black"
-                      }}
-                    >
-                      {(zbirBudzetaMjeseci - potrosnja).toLocaleString(
-                        "de-DE",
-                        {
-                          maximumFractionDigits: 2,
-                          minumumFractionDigits: 2
-                        }
-                      )}{" "}
-                      KM
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
               <TableRow style={{ backgroundColor: "#4c74b9" }}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  style={{ fontWeight: "bold", color: "white" }}
-                >
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   UKUPNO
                 </TableCell>
 
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  {ukupnaPotrosnjaSvi.toLocaleString("de-DE", {
+                  {ukupnaPotrosnjaSvihCapexa.toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
                   KM
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  {SviOdobreniBudzeti.toLocaleString("de-DE", {
+                  {SviOdobreniBudzetiCapexa.toLocaleString("de-DE", {
                     maximumFractionDigits: 2,
                     minumumFractionDigits: 2
                   })}{" "}
@@ -236,20 +377,18 @@ class test extends Component {
                 <TableCell
                   style={{
                     fontWeight: "bold",
-                    color: "white",
                     color:
-                      SviOdobreniBudzeti - ukupnaPotrosnjaSvi < 0
+                      SviOdobreniBudzetiCapexa - ukupnaPotrosnjaSvihCapexa < 0
                         ? "red"
                         : "white"
                   }}
                 >
-                  {(SviOdobreniBudzeti - ukupnaPotrosnjaSvi).toLocaleString(
-                    "de-DE",
-                    {
-                      maximumFractionDigits: 2,
-                      minumumFractionDigits: 2
-                    }
-                  )}{" "}
+                  {(
+                    SviOdobreniBudzetiCapexa - ukupnaPotrosnjaSvihCapexa
+                  ).toLocaleString("de-DE", {
+                    maximumFractionDigits: 2,
+                    minumumFractionDigits: 2
+                  })}{" "}
                   KM
                 </TableCell>
               </TableRow>

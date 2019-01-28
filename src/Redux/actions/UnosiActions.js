@@ -14,6 +14,21 @@ export const storeCapex = podaci => async dispatch => {
   );
   dispatch(getAllCapex());
 };
+export const getAllGlavniCapex = () => async dispatch => {
+  const capexi = await axios.get(
+    "https://budzet2019.herokuapp.com/GlavniCapex"
+  );
+  console.log(capexi, "novi capex");
+
+  dispatch(storeGlavniCapexi(capexi.data));
+};
+export const storeGlavniCapex = podaci => async dispatch => {
+  const capexi = await axios.post(
+    "https://budzet2019.herokuapp.com/GlavniCapex",
+    podaci
+  );
+  dispatch(getAllCapex());
+};
 export const saveAccount = podaci => async dispatch => {
   const capexi = await axios.post(
     "https://budzet2019.herokuapp.com/signUp",
@@ -31,6 +46,10 @@ export const sacuvajPodatke = data => async dispatch => {
 };
 export const storeCapexi = payload => ({
   type: "ALL_CAPEXI",
+  payload
+});
+export const storeGlavniCapexi = payload => ({
+  type: "ALL_GLAVNI_CAPEXI",
   payload
 });
 export const success = payload => ({
