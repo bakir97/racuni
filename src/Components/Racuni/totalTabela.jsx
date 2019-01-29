@@ -43,8 +43,10 @@ class test extends Component {
     const ukupnaPotrosnjaSvi = this.props.data.reduce(
       (total, jednaPotrosnja) => {
         if (
-          this.props.capexi.filter(jedanCapex =>
-            jedanCapex.capexSifra.includes(jednaPotrosnja.capex.capexSifra)
+          this.props.sviGlavniCapexi.filter(
+            jedanCapex =>
+              jednaPotrosnja.capex.capexSifra.split("-")[0] ===
+              jedanCapex.capexSifra
           ).length > 0
         ) {
           return total + jednaPotrosnja.potrosnja;
@@ -53,22 +55,25 @@ class test extends Component {
       },
       0
     );
-    const SviOdobreniBudzeti = this.props.capexi.reduce((total, capex) => {
-      if (
-        moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
-        moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
-      ) {
-        return (
-          total +
-          capex.budzetSarajevo +
-          capex.budzetZenica +
-          capex.budzetMostar +
-          capex.budzetTuzla +
-          capex.budzetSBK
-        );
-      }
-      return total;
-    }, 0);
+    const SviOdobreniBudzeti = this.props.sviGlavniCapexi.reduce(
+      (total, capex) => {
+        if (
+          moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
+          moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
+        ) {
+          return (
+            total +
+            capex.budzetSarajevo +
+            capex.budzetZenica +
+            capex.budzetMostar +
+            capex.budzetTuzla +
+            capex.budzetSBK
+          );
+        }
+        return total;
+      },
+      0
+    );
     const { classes } = this.props;
     return (
       <>
@@ -159,7 +164,7 @@ class test extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.props.capexi.map((row, i) => {
+              {this.props.sviGlavniCapexi.map((row, i) => {
                 const findIndex = this.state.datumi.findIndex(
                   datum => datum.capex === row.capexSifra
                 );
@@ -231,11 +236,26 @@ class test extends Component {
                   }
                   return null;
                 });
-                const odobreniBudzetZbir = this.props.capexi.reduce(
+                const samoJedanPrikaz = this.props.sviGlavniCapexi.map(
+                  jedan => {
+                    console.log(array, "array");
+
+                    if (
+                      array.filter(
+                        capex => capex.capexSifra === jedan.capexSifra
+                      ).length <= 0
+                    ) {
+                      array = [...array, jedan];
+                      return jedan;
+                    }
+                    return null;
+                  }
+                );
+                const odobreniBudzetZbir = this.props.sviGlavniCapexi.reduce(
                   (total, capex) => {
                     if (
-                      samoJedan[i] &&
-                      capex.capexSifra === samoJedan[i].capexSifra &&
+                      samoJedanPrikaz[i] &&
+                      capex.capexSifra === samoJedanPrikaz[i].capexSifra &&
                       moment(capex.datumPocetkaCapexa).month() >=
                         this.props.odBrojMjesec &&
                       moment(capex.datumZavrsetkaCapexa).month() <=
@@ -329,7 +349,7 @@ class test extends Component {
                         component="th"
                         scope="row"
                       >
-                        {samoJedan[i].capexSifra}
+                        {samoJedanPrikaz[i].capexSifra}
                       </TableCell>
                       <TableCell
                         style={{

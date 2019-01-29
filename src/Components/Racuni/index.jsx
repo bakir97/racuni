@@ -360,8 +360,12 @@ class ScrollableTabsButtonAuto extends React.Component {
           <Test
             sviGlavniCapexi={
               this.state.glavniCapexi.length > 0
-                ? this.state.glavniCapexi
-                : this.props.glavniCapexi
+                ? this.state.glavniCapexi.filter(
+                    glavniCapex => glavniCapex.Sarajevo
+                  )
+                : this.props.glavniCapexi.filter(
+                    glavniCapex => glavniCapex.Sarajevo
+                  )
             }
             sviCapexi={this.props.capexi}
             odBrojMjesec={odBrojMjesec}
@@ -395,8 +399,14 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               sviGlavniCapexi={
                 this.state.glavniCapexi.length > 0
-                  ? this.state.glavniCapexi
-                  : this.props.glavniCapexi
+                  ? this.state.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.Zenica || user.mjesto === "Sarajevo"
+                    )
+                  : this.props.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.Zenica || user.mjesto === "Sarajevo"
+                    )
               }
               sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
@@ -432,8 +442,14 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               sviGlavniCapexi={
                 this.state.glavniCapexi.length > 0
-                  ? this.state.glavniCapexi
-                  : this.props.glavniCapexi
+                  ? this.state.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.Mostar || user.mjesto === "Sarajevo"
+                    )
+                  : this.props.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.Mostar || user.mjesto === "Sarajevo"
+                    )
               }
               sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
@@ -469,8 +485,14 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               sviGlavniCapexi={
                 this.state.glavniCapexi.length > 0
-                  ? this.state.glavniCapexi
-                  : this.props.glavniCapexi
+                  ? this.state.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.Tuzla || user.mjesto === "Sarajevo"
+                    )
+                  : this.props.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.Tuzla || user.mjesto === "Sarajevo"
+                    )
               }
               sviCapexi={this.props.capexi}
               odBrojMjesec={odBrojMjesec}
@@ -505,8 +527,14 @@ class ScrollableTabsButtonAuto extends React.Component {
             <Test
               sviGlavniCapexi={
                 this.state.glavniCapexi.length > 0
-                  ? this.state.glavniCapexi
-                  : this.props.glavniCapexi
+                  ? this.state.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.SBK || user.mjesto === "Sarajevo"
+                    )
+                  : this.props.glavniCapexi.filter(
+                      glavniCapex =>
+                        glavniCapex.SBK || user.mjesto === "Sarajevo"
+                    )
               }
               odBrojMjesec={odBrojMjesec}
               doBrojMjesec={doBrojMjesec}
