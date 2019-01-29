@@ -6,7 +6,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
 import moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import "./stil.css";
@@ -129,13 +128,31 @@ class test extends Component {
                         Capex
                       </TableCell>
 
-                      <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold",
+                          color: "white",
+                          width: 400
+                        }}
+                      >
                         Potrosnja
                       </TableCell>
-                      <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold",
+                          color: "white",
+                          width: 400
+                        }}
+                      >
                         Odobreni Budzet
                       </TableCell>
-                      <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                      <TableCell
+                        style={{
+                          fontWeight: "bold",
+                          color: "white",
+                          width: 400
+                        }}
+                      >
                         Razlika
                       </TableCell>
                     </TableRow>
@@ -358,13 +375,19 @@ class test extends Component {
                   Capex
                 </TableCell>
 
-                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                <TableCell
+                  style={{ fontWeight: "bold", color: "white", width: 400 }}
+                >
                   Potrosnja
                 </TableCell>
-                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                <TableCell
+                  style={{ fontWeight: "bold", color: "white", width: 400 }}
+                >
                   Odobreni Budzet
                 </TableCell>
-                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                <TableCell
+                  style={{ fontWeight: "bold", color: "white", width: 400 }}
+                >
                   Razlika
                 </TableCell>
               </TableRow>
