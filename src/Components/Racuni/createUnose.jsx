@@ -46,7 +46,7 @@ class index extends Component {
           : this.props.user.mjesto,
       username: this.props.user.username
     });
-    this.props.history.push("/racuni");
+    this.props.history.push("/budzet");
   };
 
   handleChange = e => {

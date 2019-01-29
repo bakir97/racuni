@@ -41,14 +41,14 @@ class index extends Component {
           ? this.state.poslovnaJedinica
           : this.props.user.mjesto
     });
-    this.props.history.push("/racuni");
+    this.props.history.push("/budzet");
   };
   componentWillUnmount() {
     this.props.jedanUnos();
   }
   componentDidMount() {
     if (Object.keys(this.props.jedanUnosState).length <= 0) {
-      this.props.history.push("/racuni");
+      this.props.history.push("/budzet");
     }
   }
   handleChange = e => {

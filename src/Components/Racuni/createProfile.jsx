@@ -31,7 +31,7 @@ class index extends Component {
   submit = e => {
     e.preventDefault();
     this.props.saveAccount(this.state);
-    this.props.history.push("/racuni");
+    this.props.history.push("/budzet");
   };
 
   handleChange = e => {

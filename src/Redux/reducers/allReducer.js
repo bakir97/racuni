@@ -5,7 +5,8 @@ const initialState = {
   allCapexi: [],
   capexiDatumi: [],
   errorLogin: {},
-  success: false
+  success: false,
+  allGlavniCapexi: []
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -30,6 +31,11 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         allCapexi: payload
+      };
+    case "ALL_GLAVNI_CAPEXI":
+      return {
+        ...state,
+        allGlavniCapexi: payload
       };
     case "ERROR_LOGIN":
       return {

@@ -1,22 +1,43 @@
 import axios from "axios";
 export const getAllData = () => async dispatch => {
-  const unosi = await axios.get("http://localhost:5000/Unosi");
+  const unosi = await axios.get("https://budzet2019.herokuapp.com/Unosi");
   dispatch(storeData(unosi.data));
 };
 export const getAllCapex = () => async dispatch => {
-  const capexi = await axios.get("http://localhost:5000/Capex");
+  const capexi = await axios.get("https://budzet2019.herokuapp.com/Capex");
   dispatch(storeCapexi(capexi.data));
 };
 export const storeCapex = podaci => async dispatch => {
-  const capexi = await axios.post("http://localhost:5000/Capex", podaci);
+  const capexi = await axios.post(
+    "https://budzet2019.herokuapp.com/Capex",
+    podaci
+  );
+  dispatch(getAllCapex());
+};
+export const getAllGlavniCapex = () => async dispatch => {
+  const capexi = await axios.get(
+    "https://budzet2019.herokuapp.com/GlavniCapex"
+  );
+  console.log(capexi, "novi capex");
+
+  dispatch(storeGlavniCapexi(capexi.data));
+};
+export const storeGlavniCapex = podaci => async dispatch => {
+  const capexi = await axios.post(
+    "https://budzet2019.herokuapp.com/GlavniCapex",
+    podaci
+  );
   dispatch(getAllCapex());
 };
 export const saveAccount = podaci => async dispatch => {
-  const capexi = await axios.post("http://localhost:5000/signUp", podaci);
+  const capexi = await axios.post(
+    "https://budzet2019.herokuapp.com/signUp",
+    podaci
+  );
 };
 export const sacuvajPodatke = data => async dispatch => {
   try {
-    await axios.post("http://localhost:5000/Unosi", data);
+    await axios.post("https://budzet2019.herokuapp.com/Unosi", data);
     dispatch(getAllData());
     dispatch(success(true));
   } catch (error) {
@@ -25,6 +46,10 @@ export const sacuvajPodatke = data => async dispatch => {
 };
 export const storeCapexi = payload => ({
   type: "ALL_CAPEXI",
+  payload
+});
+export const storeGlavniCapexi = payload => ({
+  type: "ALL_GLAVNI_CAPEXI",
   payload
 });
 export const success = payload => ({

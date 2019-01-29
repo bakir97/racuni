@@ -6,6 +6,7 @@ import Racuni from "./Components/Racuni";
 import EditUnose from "./Components/Racuni/EditUnose";
 import CreateUnose from "./Components/Racuni/createUnose";
 import CreateCapex from "./Components/Racuni/createCapex";
+import createGlavniCapex from "./Components/Racuni/createGlavniCapex";
 import CreateProfile from "./Components/Racuni/createProfile";
 class App extends Component {
   render() {
@@ -18,9 +19,11 @@ class App extends Component {
         {this.props.all.user.adminAplikacije && (
           <Route path="/createProfile" component={CreateProfile} />
         )}
-
+        {this.props.all.user.adminAplikacije && (
+          <Route path="/createGlavniCapex" component={createGlavniCapex} />
+        )}
         <Route path="/editUnos" component={EditUnose} />
-        <Route path="/racuni" component={Racuni} />
+        <Route path="/budzet" component={Racuni} />
         <Route exact path="/" render={props => <Login {...props} />} />
       </Switch>
     ) : (

@@ -17,11 +17,6 @@ class index extends Component {
     datumPocetkaCapexa: moment().format("YYYY-MM-DD"),
     datumZavrsetkaCapexa: moment().format("YYYY-MM-DD"),
     capexSifra: "",
-    budzetSarajevo: "",
-    budzetZenica: "",
-    budzetMostar: "",
-    budzetTuzla: "",
-    budzetSBK: "",
     Sarajevo: "",
     Zenica: "",
     Mostar: "",
@@ -35,7 +30,7 @@ class index extends Component {
   submit = e => {
     e.preventDefault();
     this.props.storeCapex(this.state);
-    this.props.history.push("/racuni");
+    this.props.history.push("/budzet");
   };
 
   handleChangeInput = e => {
@@ -85,58 +80,6 @@ class index extends Component {
               value={this.state.capexSifra}
               style={{ marginRight: 10, width: 200 }}
             />
-            <Grid container style={{ width: "100%" }} justify="center">
-              <TextField
-                label="Budzet Sarajevo"
-                type="number"
-                name="budzetSarajevo"
-                margin="normal"
-                variant="outlined"
-                onChange={e => this.handleChangeInput(e)}
-                value={this.state.budzetSarajevo}
-                style={{ marginRight: 10 }}
-              />
-              <TextField
-                label="Budzet Zenica"
-                type="number"
-                name="budzetZenica"
-                margin="normal"
-                variant="outlined"
-                onChange={e => this.handleChangeInput(e)}
-                value={this.state.budzetZenica}
-                style={{ marginRight: 10 }}
-              />
-              <TextField
-                label="Budzet Mostar"
-                type="number"
-                name="budzetMostar"
-                margin="normal"
-                variant="outlined"
-                onChange={e => this.handleChangeInput(e)}
-                value={this.state.budzetMostar}
-                style={{ marginRight: 10 }}
-              />
-              <TextField
-                label="Budzet Tuzla"
-                type="number"
-                name="budzetTuzla"
-                margin="normal"
-                variant="outlined"
-                onChange={e => this.handleChangeInput(e)}
-                value={this.state.budzetTuzla}
-                style={{ marginRight: 10 }}
-              />
-              <TextField
-                label="Budzet SBK"
-                type="number"
-                name="budzetSBK"
-                margin="normal"
-                variant="outlined"
-                onChange={e => this.handleChangeInput(e)}
-                value={this.state.budzetSBK}
-                style={{ marginRight: 10 }}
-              />
-            </Grid>
           </Grid>
           <Grid>
             <FormControl
