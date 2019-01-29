@@ -44,7 +44,7 @@ class test extends Component {
     );
     console.log(this.props.capexi, "capexi sto mi trebaju");
 
-    const SviOdobreniBudzeti = this.props.capexi.reduce((total, capex) => {
+    const SviOdobreniBudzeti = this.props.sviCapexi.reduce((total, capex) => {
       if (
         moment(capex.datumPocetkaCapexa).month() >= this.props.odBrojMjesec &&
         moment(capex.datumZavrsetkaCapexa).month() <= this.props.doBrojMjesec
