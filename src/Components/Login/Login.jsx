@@ -3,8 +3,6 @@ import TextField from "@material-ui/core/TextField";
 import { Grid, Button } from "@material-ui/core";
 export default class index extends Component {
   componentDidMount() {
-    console.log(this.props);
-
     if (this.props.user.isAuth) {
       this.props.history.push("budzet");
     }

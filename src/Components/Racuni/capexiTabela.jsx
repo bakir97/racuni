@@ -87,7 +87,6 @@ class test extends Component {
               }
               return total;
             }, 0);
-          console.log(this.props.capexi, "capexi sto mi trebaju");
           const SviOdobreniBudzeti = this.props.sviGlavniCapexi.reduce(
             (total, capex) => {
               if (
@@ -199,7 +198,6 @@ class test extends Component {
                             this.state.datumi[findIndex].do
                           ).valueOf();
                         }
-                        console.log(odDatumState, "test");
                         const najmanjiDatum = datumiPravi.map(
                           datumiSvi => datumiSvi.datumPocetkaSedmice
                         );
@@ -211,11 +209,6 @@ class test extends Component {
 
                         const potrosnja = datumiPravi.reduce(
                           (total, trosak) => {
-                            console.log(
-                              trosak.datumPocetkaSedmice,
-                              "datuk kraja"
-                            );
-
                             if (
                               trosak.datumPocetkaSedmice >= odDatumState &&
                               trosak.datumZavrsetkaSedmice <= doDatumState
@@ -226,19 +219,10 @@ class test extends Component {
                           },
                           0
                         );
-                        console.log(
-                          moment(odDatumState).month(),
-                          "sto uporedujemo"
-                        );
 
-                        console.log(troskovi_datumi, "troskovi");
-                        console.log(datumiPravi, "datumiPravi");
-                        console.log(najmanji, "najmanjiDatum");
-                        console.log(najveci, "najveci");
                         const proba = this.props.sviCapexi.filter(
                           capex => capex.capexSifra === row.capexSifra
                         );
-                        console.log(proba, "proba");
 
                         const zbirBudzetaMjeseci = proba.reduce(
                           (total, capex) => {
@@ -248,16 +232,12 @@ class test extends Component {
                               moment(capex.datumZavrsetkaCapexa).month() <=
                                 this.props.doBrojMjesec
                             ) {
-                              console.log("jednakaaaa", row[this.props.grad]);
-
                               return total + capex[this.props.grad];
                             }
                             return total;
                           },
                           0
                         );
-                        console.log(this.props.odBrojMjesec, "pocetak");
-                        console.log(this.props.doBrojMjesec, "kraj");
 
                         return (
                           <TableRow

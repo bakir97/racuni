@@ -94,13 +94,14 @@ class ScrollableTabsButtonAuto extends React.Component {
         return null;
       })
       .filter(jedan => jedan !== null);
-    console.log(samoJedan, "samo jedan bi trebao");
 
     return samoJedan.map(capex => (
       <FormControlLabel
-        style={{ margin: 15, marginLeft: 10 }}
+      key={capex.capexSifra}
+        style={{ margin: 15 }}
         control={
           <Checkbox
+            style={{ margin: 0, padding: 0 }}
             name={capex.capexSifra}
             checked={
               this.state.glavniCapexi.filter(
@@ -138,20 +139,11 @@ class ScrollableTabsButtonAuto extends React.Component {
     const datumiPretvoreniDo = this.props.data.map(jedan =>
       moment(jedan.datumZavrsetkaSedmice).valueOf()
     );
-    console.log(Math.min(datumiPretvoreniOd), "datumo");
     let doDatumMoment = moment(this.state.do || 0).valueOf();
     if (doDatumMoment === 0) {
       doDatumMoment = 99999999999999999;
     }
     const test = this.props.data.filter(jedan => {
-      console.log(moment(jedan.datumPocetkaSedmice).valueOf());
-      console.log(moment(this.state.od || 0).valueOf(), "testiram");
-      console.log(
-        moment(jedan.datumPocetkaSedmice).valueOf() >=
-          moment(this.state.od || 0).valueOf(),
-        "relacija"
-      );
-
       if (
         jedan.poslovnaJedinica === "Sarajevo" &&
         moment(jedan.datumPocetkaSedmice).valueOf() >=
@@ -162,10 +154,6 @@ class ScrollableTabsButtonAuto extends React.Component {
       }
       return null;
     });
-    console.log("kurac", this.state.glavniCapexi);
-
-    console.log(moment(this.state.od).month(), "test filter");
-    console.log(isNaN(moment(this.state.od).month(), "testtss"));
 
     let datumBroj =
       isNaN(moment(this.state.od).month()) === false
@@ -347,8 +335,6 @@ class ScrollableTabsButtonAuto extends React.Component {
                   display: "flex",
                   flexDirection: "column"
                 }}
-                container
-                direction="column"
               >
                 {this.inputBoxovi()}
               </div>
@@ -374,11 +360,11 @@ class ScrollableTabsButtonAuto extends React.Component {
               this.state.capexi.length > 0
                 ? this.state.capexi.filter(
                     capex =>
-                      moment(capex.datumPocetkaCapexa).month() === datumBroj
+                      moment(capex.datumPocetkaCapexa).month() === datumBroj && capex.Sarajevo === true
                   )
                 : this.props.capexi.filter(
                     capex =>
-                      moment(capex.datumPocetkaCapexa).month() === datumBroj
+                      moment(capex.datumPocetkaCapexa).month() === datumBroj && capex.Sarajevo === true
                   )
             }
             data={this.props.data.filter(

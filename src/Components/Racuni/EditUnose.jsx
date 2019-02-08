@@ -58,8 +58,17 @@ class index extends Component {
   };
 
   render() {
-    console.log(this.state);
-
+    let array = [];
+    const samoJedan = this.props.capexi.map(jedan => {
+      if (
+        array.filter(capex => capex.capexSifra === jedan.capexSifra).length <= 0
+      ) {
+        array = [...array, jedan];
+        return jedan;
+      }
+      return null;
+    });
+    const samoJedanNull = samoJedan.filter(jedan => jedan !== null && jedan[this.props.user.mjesto] === true);
     return (
       <form onSubmit={this.submit}>
         <Grid
@@ -138,7 +147,7 @@ class index extends Component {
                   <MenuItem value={this.props.jedanUnosState.capex.capexSifra}>
                     {this.props.jedanUnosState.capex.capexSifra}
                   </MenuItem>
-                  {this.props.capexi
+                  {this.props.samoJedanNull
                     .filter(
                       capex =>
                         this.props.jedanUnosState.capex.capexSifra !==

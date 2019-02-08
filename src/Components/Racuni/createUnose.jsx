@@ -66,7 +66,9 @@ class index extends Component {
       }
       return null;
     });
-    const samoJedanNull = samoJedan.filter(jedan => jedan !== null);
+   
+   
+    const samoJedanNull = samoJedan.filter(jedan => jedan !== null ).filter(jedan=>jedan[this.props.user.mjesto]===true);
     return (
       <form onSubmit={this.submit}>
         <Grid

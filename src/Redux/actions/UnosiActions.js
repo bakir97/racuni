@@ -18,7 +18,6 @@ export const getAllGlavniCapex = () => async dispatch => {
   const capexi = await axios.get(
     "https://budzet2019.herokuapp.com/GlavniCapex"
   );
-  console.log(capexi, "novi capex");
 
   dispatch(storeGlavniCapexi(capexi.data));
 };

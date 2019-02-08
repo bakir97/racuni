@@ -199,7 +199,6 @@ class test extends Component {
                     this.state.datumi[findIndex].do
                   ).valueOf();
                 }
-                console.log(odDatumState, "test");
                 const najmanjiDatum = datumiPravi.map(
                   datumiSvi => datumiSvi.datumPocetkaSedmice
                 );
@@ -219,14 +218,8 @@ class test extends Component {
                   return total;
                 }, 0);
 
-                console.log(troskovi_datumi, "troskovi");
-                console.log(datumiPravi, "datumiPravi");
-                console.log(najmanji, "najmanjiDatum");
-                console.log(najveci, "najveci");
                 let array = [];
                 const samoJedan = this.props.capexi.map(jedan => {
-                  console.log(array, "array");
-
                   if (
                     array.filter(capex => capex.capexSifra === jedan.capexSifra)
                       .length <= 0
@@ -238,8 +231,6 @@ class test extends Component {
                 });
                 const samoJedanPrikaz = this.props.sviGlavniCapexi.map(
                   jedan => {
-                    console.log(array, "array");
-
                     if (
                       array.filter(
                         capex => capex.capexSifra === jedan.capexSifra
@@ -340,7 +331,7 @@ class test extends Component {
                   potrosnjaTuzla +
                   potrosnjaSBK;
                 return (
-                  samoJedan[i] && (
+                  samoJedanPrikaz[i] && (
                     <TableRow key={row._id}>
                       <TableCell
                         style={{
