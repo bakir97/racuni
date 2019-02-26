@@ -229,14 +229,15 @@ class test extends Component {
                   }
                   return null;
                 });
+                let array1 = [];
                 const samoJedanPrikaz = this.props.sviGlavniCapexi.map(
                   jedan => {
                     if (
-                      array.filter(
+                      array1.filter(
                         capex => capex.capexSifra === jedan.capexSifra
                       ).length <= 0
                     ) {
-                      array = [...array, jedan];
+                      array1 = [...array1, jedan];
                       return jedan;
                     }
                     return null;
@@ -330,6 +331,8 @@ class test extends Component {
                   potrosnjaMostar +
                   potrosnjaTuzla +
                   potrosnjaSBK;
+                console.log(samoJedanPrikaz[i], "test");
+
                 return (
                   samoJedanPrikaz[i] && (
                     <TableRow key={row._id}>

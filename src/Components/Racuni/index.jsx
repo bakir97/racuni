@@ -97,7 +97,7 @@ class ScrollableTabsButtonAuto extends React.Component {
 
     return samoJedan.map(capex => (
       <FormControlLabel
-      key={capex.capexSifra}
+        key={capex.capexSifra}
         style={{ margin: 15 }}
         control={
           <Checkbox
@@ -360,11 +360,13 @@ class ScrollableTabsButtonAuto extends React.Component {
               this.state.capexi.length > 0
                 ? this.state.capexi.filter(
                     capex =>
-                      moment(capex.datumPocetkaCapexa).month() === datumBroj && capex.Sarajevo === true
+                      moment(capex.datumPocetkaCapexa).month() === datumBroj &&
+                      capex.Sarajevo === true
                   )
                 : this.props.capexi.filter(
                     capex =>
-                      moment(capex.datumPocetkaCapexa).month() === datumBroj && capex.Sarajevo === true
+                      moment(capex.datumPocetkaCapexa).month() === datumBroj &&
+                      capex.Sarajevo === true
                   )
             }
             data={this.props.data.filter(
