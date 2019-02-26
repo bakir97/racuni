@@ -331,8 +331,6 @@ class test extends Component {
                   potrosnjaMostar +
                   potrosnjaTuzla +
                   potrosnjaSBK;
-                console.log(samoJedanPrikaz[i], "test");
-
                 return (
                   samoJedanPrikaz[i] && (
                     <TableRow key={row._id}>
