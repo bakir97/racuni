@@ -73,7 +73,9 @@ class test extends Component {
           const ukupnaPotrosnjaSvi = this.props.data
             .filter(
               data =>
-                data.capex.capexSifra.split("-")[0] === glavniCapex.capexSifra
+                data.capex.capexSifra.split("-")[0] ===
+                  glavniCapex.capexSifra ||
+                data.capex.capexSifra === glavniCapex.capexSifra
             )
             .reduce((total, jednaPotrosnja) => {
               if (
@@ -94,7 +96,8 @@ class test extends Component {
                   this.props.odBrojMjesec &&
                 moment(capex.datumZavrsetkaCapexa).month() <=
                   this.props.doBrojMjesec &&
-                capex.capexSifra.split("-")[0] === glavniCapex.capexSifra
+                (capex.capexSifra.split("-")[0] === glavniCapex.capexSifra ||
+                  capex.capexSifra === glavniCapex.capexSifra)
               ) {
                 return total + capex[this.props.grad];
               }
@@ -161,7 +164,8 @@ class test extends Component {
                       .filter(
                         capex =>
                           capex.capexSifra.split("-")[0] ===
-                          glavniCapex.capexSifra
+                            glavniCapex.capexSifra ||
+                          capex.capexSifra === glavniCapex.capexSifra
                       )
                       .map((row, i) => {
                         const findIndex = this.state.datumi.findIndex(
