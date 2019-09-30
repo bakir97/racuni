@@ -23,7 +23,7 @@ const styles = theme => ({
 });
 
 function SimpleTable(props) {
-  const { classes, data, mjesto } = props;
+  const { classes, data, mjesto, sviGlavniCapexi, imena } = props;
   const prebaci = data => {
     props.jedanUnos(data);
     props.history.push("/EditUnos");
@@ -106,46 +106,60 @@ function SimpleTable(props) {
         </TableHead>
         <TableBody>
           {data.map(row => {
-            return (
-              <TableRow key={row._id}>
-                <TableCell component="th" scope="row">
-                  {row.capex.capexSifra}
-                </TableCell>
-                <TableCell align="right">
-                  {moment(row.datumPocetkaSedmice).format("DD/MM/YYYY")}
-                </TableCell>
-                <TableCell align="right">
-                  {moment(row.datumZavrsetkaSedmice).format("DD/MM/YYYY")}
-                </TableCell>
-                <TableCell align="right">
-                  {row.potrosnja.toLocaleString("bs", {
-                    maximumFractionDigits: 2,
-                    minumumFractionDigits: 2
-                  })}{" "}
-                  KM
-                </TableCell>
-                <TableCell align="right">{row.username}</TableCell>
-                <TableCell align="right">{row.poslovnaJedinica}</TableCell>
-                <TableCell align="right">
-                  {moment(row.updatedAt).format("DD/MM/YYYY")}
-                </TableCell>
+            if (
+              sviGlavniCapexi.filter(
+                glavniCapex =>
+                  row.capex.capexSifra.split("-")[0] ===
+                    glavniCapex.capexSifra ||
+                  row.capex.capexSifra === glavniCapex.capexSifra
+              ).length > 0 &&
+              (imena.length > 0
+                ? imena.filter(unos => unos.username === row.username).length >
+                  0
+                : true)
+            ) {
+              return (
+                <TableRow key={row._id}>
+                  <TableCell component="th" scope="row">
+                    {row.capex.capexSifra}
+                  </TableCell>
+                  <TableCell align="right">
+                    {moment(row.datumPocetkaSedmice).format("DD/MM/YYYY")}
+                  </TableCell>
+                  <TableCell align="right">
+                    {moment(row.datumZavrsetkaSedmice).format("DD/MM/YYYY")}
+                  </TableCell>
+                  <TableCell align="right">
+                    {row.potrosnja &&
+                      row.potrosnja.toLocaleString("bs", {
+                        maximumFractionDigits: 2,
+                        minumumFractionDigits: 2
+                      })}{" "}
+                    KM
+                  </TableCell>
+                  <TableCell align="right">{row.username}</TableCell>
+                  <TableCell align="right">{row.poslovnaJedinica}</TableCell>
+                  <TableCell align="right">
+                    {moment(row.updatedAt).format("DD/MM/YYYY")}
+                  </TableCell>
 
-                <TableCell align="right">
-                  {(mjesto === row.poslovnaJedinica ||
-                    props.user.adminAplikacije ||
-                    row.username === props.user.username) &&
-                    !props.user.direktor && (
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "yellow" }}
-                        onClick={() => prebaci(row)}
-                      >
-                        Izmjeni
-                      </Button>
-                    )}
-                </TableCell>
-              </TableRow>
-            );
+                  <TableCell align="right">
+                    {(props.user.adminAplikacije ||
+                      row.username === props.user.username) &&
+                      !props.user.direktor && (
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "yellow" }}
+                          onClick={() => prebaci(row)}
+                        >
+                          Izmjeni
+                        </Button>
+                      )}
+                  </TableCell>
+                </TableRow>
+              );
+            }
+            return null;
           })}
         </TableBody>
       </Table>

@@ -29,9 +29,16 @@ class test extends Component {
     return this.props.data.reduce((total, jednaPotrosnja) => {
       if (
         jednaPotrosnja.poslovnaJedinica === grad &&
-        this.props.capexi.filter(jedanCapex =>
-          jedanCapex.capexSifra.includes(jednaPotrosnja.capex.capexSifra)
-        ).length > 0
+        this.props.sviGlavniCapexi.filter(
+          jedanCapex =>
+            jednaPotrosnja.capex.capexSifra.split("-")[0] ===
+              jedanCapex.capexSifra ||
+            jednaPotrosnja.capex.capexSifra === jedanCapex.capexSifra
+        ).length > 0 &&
+        moment(jednaPotrosnja.datumPocetkaSedmice).month() >=
+          this.props.odBrojMjesec &&
+        moment(jednaPotrosnja.datumZavrsetkaSedmice).month() <=
+          this.props.doBrojMjesec
       ) {
         return total + jednaPotrosnja.potrosnja;
       }
@@ -46,8 +53,13 @@ class test extends Component {
           this.props.sviGlavniCapexi.filter(
             jedanCapex =>
               jednaPotrosnja.capex.capexSifra.split("-")[0] ===
-              jedanCapex.capexSifra
-          ).length > 0
+                jedanCapex.capexSifra ||
+              jednaPotrosnja.capex.capexSifra === jedanCapex.capexSifra
+          ).length > 0 &&
+          moment(jednaPotrosnja.datumPocetkaSedmice).month() >=
+            this.props.odBrojMjesec &&
+          moment(jednaPotrosnja.datumZavrsetkaSedmice).month() <=
+            this.props.doBrojMjesec
         ) {
           return total + jednaPotrosnja.potrosnja;
         }
@@ -269,8 +281,11 @@ class test extends Component {
                 const potrosnjaSarajevo = this.props.data.reduce(
                   (total, unos) => {
                     if (
-                      samoJedan[i] &&
-                      unos.capex.capexSifra === samoJedan[i].capexSifra &&
+                      samoJedanPrikaz[i] &&
+                      (unos.capex.capexSifra.split("-")[0] ===
+                        samoJedanPrikaz[i].capexSifra ||
+                        unos.capex.capexSifra ===
+                          samoJedanPrikaz[i].capexSifra) &&
                       unos.poslovnaJedinica === "Sarajevo"
                     ) {
                       return total + unos.potrosnja;
@@ -282,8 +297,11 @@ class test extends Component {
                 const potrosnjaZenica = this.props.data.reduce(
                   (total, unos) => {
                     if (
-                      samoJedan[i] &&
-                      unos.capex.capexSifra === samoJedan[i].capexSifra &&
+                      samoJedanPrikaz[i] &&
+                      (unos.capex.capexSifra.split("-")[0] ===
+                        samoJedanPrikaz[i].capexSifra ||
+                        unos.capex.capexSifra ===
+                          samoJedanPrikaz[i].capexSifra) &&
                       unos.poslovnaJedinica === "Zenica"
                     ) {
                       return total + unos.potrosnja;
@@ -295,8 +313,11 @@ class test extends Component {
                 const potrosnjaMostar = this.props.data.reduce(
                   (total, unos) => {
                     if (
-                      samoJedan[i] &&
-                      unos.capex.capexSifra === samoJedan[i].capexSifra &&
+                      samoJedanPrikaz[i] &&
+                      (unos.capex.capexSifra.split("-")[0] ===
+                        samoJedanPrikaz[i].capexSifra ||
+                        unos.capex.capexSifra ===
+                          samoJedanPrikaz[i].capexSifra) &&
                       unos.poslovnaJedinica === "Mostar"
                     ) {
                       return total + unos.potrosnja;
@@ -307,18 +328,25 @@ class test extends Component {
                 );
                 const potrosnjaTuzla = this.props.data.reduce((total, unos) => {
                   if (
-                    samoJedan[i] &&
-                    unos.capex.capexSifra === samoJedan[i].capexSifra &&
+                    samoJedanPrikaz[i] &&
+                    (unos.capex.capexSifra.split("-")[0] ===
+                      samoJedanPrikaz[i].capexSifra ||
+                      unos.capex.capexSifra ===
+                        samoJedanPrikaz[i].capexSifra) &&
                     unos.poslovnaJedinica === "Tuzla"
                   ) {
                     return total + unos.potrosnja;
                   }
                   return total;
                 }, 0);
+
                 const potrosnjaSBK = this.props.data.reduce((total, unos) => {
                   if (
-                    samoJedan[i] &&
-                    unos.capex.capexSifra === samoJedan[i].capexSifra &&
+                    samoJedanPrikaz[i] &&
+                    (unos.capex.capexSifra.split("-")[0] ===
+                      samoJedanPrikaz[i].capexSifra ||
+                      unos.capex.capexSifra ===
+                        samoJedanPrikaz[i].capexSifra) &&
                     unos.poslovnaJedinica === "SBK"
                   ) {
                     return total + unos.potrosnja;
@@ -331,6 +359,7 @@ class test extends Component {
                   potrosnjaMostar +
                   potrosnjaTuzla +
                   potrosnjaSBK;
+
                 return (
                   samoJedanPrikaz[i] && (
                     <TableRow key={row._id}>

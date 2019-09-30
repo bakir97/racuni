@@ -69,6 +69,16 @@ class test extends Component {
       .filter(jedan => jedan !== null);
     return (
       <>
+       <ReactHTMLTableToExcel
+                id="test-table-xls-button"
+                className="download-table-xls-button"
+                table='table-to-xls'
+                filename={this.props.grad}
+                sheet="tablexls"
+                buttonText="SKINI EXCEL FAJL"
+              /> 
+                  <Table id="table-to-xls" className={classes.table}>
+      
         {samoJedan.map((glavniCapex, i) => {
           const ukupnaPotrosnjaSvi = this.props.data
             .filter(
@@ -115,9 +125,7 @@ class test extends Component {
           //   return total;
           // }, 0);
           return (
-            <>
               <Paper className={classes.root}>
-                <Table id={i} className={classes.table}>
                   <TableHead>
                     <TableRow style={{ backgroundColor: "#4c74b9" }}>
                       <TableCell
@@ -335,22 +343,12 @@ class test extends Component {
                       </TableCell>
                     </TableRow>
                   </TableBody>
-                </Table>
               </Paper>
-              <ReactHTMLTableToExcel
-                id="test-table-xls-button"
-                className="download-table-xls-button"
-                table={i}
-                filename={this.props.grad}
-                sheet="tablexls"
-                buttonText="Download as XLS"
-                style={{ backgroundColor: "red" }}
-              />
-            </>
+             
           );
         })}
-        <Paper className={classes.root}>
-          <Table id="table-to-xls" className={classes.table}>
+        {/* <Paper className={classes.root}>
+          
             <TableHead>
               <TableRow style={{ backgroundColor: "#4c74b9" }}>
                 <TableCell
@@ -414,19 +412,11 @@ class test extends Component {
                   KM
                 </TableCell>
               </TableRow>
-            </TableBody>
-          </Table>
-        </Paper>
-        <ReactHTMLTableToExcel
-          id="test-table-xls-button"
-          className="download-table-xls-button"
-          table="table-to-xls"
-          filename={this.props.grad}
-          sheet="tablexls"
-          buttonText="Download as XLS"
-          style={{ backgroundColor: "red" }}
-        />
-      </>
+            </TableBody>        </Paper> */}
+        
+      </Table>
+       
+              </>
     );
   }
 }

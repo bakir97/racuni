@@ -68,7 +68,9 @@ class index extends Component {
       }
       return null;
     });
-    const samoJedanNull = samoJedan.filter(jedan => jedan !== null && jedan[this.props.user.mjesto] === true);
+    const samoJedanNull = samoJedan.filter(
+      jedan => jedan !== null && jedan[this.props.user.mjesto] === true
+    );
     return (
       <form onSubmit={this.submit}>
         <Grid
@@ -147,7 +149,7 @@ class index extends Component {
                   <MenuItem value={this.props.jedanUnosState.capex.capexSifra}>
                     {this.props.jedanUnosState.capex.capexSifra}
                   </MenuItem>
-                  {this.props.samoJedanNull
+                  {samoJedanNull
                     .filter(
                       capex =>
                         this.props.jedanUnosState.capex.capexSifra !==
@@ -162,6 +164,7 @@ class index extends Component {
               </FormControl>
             )}
             <TextField
+              inputProps={{ step: "any" }}
               label="Potrosnja"
               type="number"
               name="potrosnja"

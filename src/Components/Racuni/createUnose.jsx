@@ -66,9 +66,10 @@ class index extends Component {
       }
       return null;
     });
-   
-   
-    const samoJedanNull = samoJedan.filter(jedan => jedan !== null ).filter(jedan=>jedan[this.props.user.mjesto]===true);
+
+    const samoJedanNull = samoJedan
+      .filter(jedan => jedan !== null)
+      .filter(jedan => jedan[this.props.user.mjesto] === true);
     return (
       <form onSubmit={this.submit}>
         <Grid
@@ -153,6 +154,7 @@ class index extends Component {
               </FormControl>
             )}
             <TextField
+              inputProps={{ step: "any" }}
               label="Potrosnja"
               type="number"
               name="potrosnja"
