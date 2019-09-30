@@ -31,7 +31,7 @@ const LogIn = require("./Routes/LogIn");
 app.use("/LogIn", LogIn);
 //App routes
 app.get("/", (req, res) => {
-  res.send("alooo");
+  res.send("alooo bem ti");
 });
 app.get(
   "/passport",
